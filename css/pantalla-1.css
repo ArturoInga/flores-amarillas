@@ -1,0 +1,1921 @@
+/*
+  PANTALLA 1
+  Valle de flores amarillas
+*/
+
+
+/* =========================================
+   PANTALLA COMPLETA
+   ========================================= */
+
+.bienvenida {
+  position: relative;
+
+  isolation: isolate;
+
+  overflow: hidden;
+
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+
+  display: grid;
+
+  grid-template-rows:
+    auto
+    minmax(0, 1fr);
+
+  justify-items: center;
+
+  padding:
+    max(
+      24px,
+      env(safe-area-inset-top)
+    )
+    18px
+    0;
+
+  background:
+
+    radial-gradient(
+      circle at 50% 14%,
+      #fff9d1 0%,
+      #fff9d100 20%
+    ),
+
+    radial-gradient(
+      circle at 18% 10%,
+      #ffffffa8 0%,
+      #ffffff00 14%
+    ),
+
+    radial-gradient(
+      circle at 84% 9%,
+      #ffffff92 0%,
+      #ffffff00 14%
+    ),
+
+    linear-gradient(
+      180deg,
+      #ddd7f0 0%,
+      #ebe2f6 30%,
+      #f8efd9 67%,
+      #e3efc9 100%
+    );
+
+  transition:
+    opacity .55s ease,
+    transform .75s ease,
+    filter .55s ease;
+}
+
+
+/* =========================================
+   SALIDA DE LA PANTALLA 1
+   ========================================= */
+
+.bienvenida.saliendo {
+  opacity: 0;
+
+  transform:
+    scale(1.012);
+
+  filter:
+    blur(1.5px);
+
+  pointer-events:
+    none;
+}
+
+
+/* =========================================
+   CIELO
+   ========================================= */
+
+.cielo {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -1;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+
+.cielo::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 3%;
+
+  width:
+    min(44vw, 520px);
+
+  aspect-ratio: 1;
+
+  transform:
+    translateX(-50%);
+
+  border-radius:
+    50%;
+
+  background:
+
+    radial-gradient(
+      circle,
+      #fff8bf 0%,
+      #fff8bf35 42%,
+      #fff8bf00 74%
+    );
+
+  filter:
+    blur(2px);
+
+  opacity:
+    .95;
+}
+
+
+.cielo::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+
+    radial-gradient(
+      circle at 24% 24%,
+      #ffffff22 0 2px,
+      transparent 3px
+    ),
+
+    radial-gradient(
+      circle at 69% 18%,
+      #ffffff18 0 2px,
+      transparent 3px
+    ),
+
+    radial-gradient(
+      circle at 80% 28%,
+      #ffffff15 0 2px,
+      transparent 3px
+    ),
+
+    radial-gradient(
+      circle at 61% 35%,
+      #ffffff11 0 2px,
+      transparent 3px
+    );
+
+  opacity:
+    .42;
+}
+
+
+/* =========================================
+   NUBES
+   ========================================= */
+
+.nube {
+  position: absolute;
+
+  width: 250px;
+  height: 48px;
+
+  border-radius:
+    999px;
+
+  background:
+    #ffffffcf;
+
+  filter:
+    blur(3px);
+
+  opacity:
+    .75;
+
+  animation:
+    pasear-nube
+    36s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+
+.nube::before,
+.nube::after {
+  content: "";
+
+  position: absolute;
+
+  background:
+    inherit;
+
+  border-radius:
+    50%;
+}
+
+
+.nube::before {
+  width: 100px;
+  height: 78px;
+
+  left: 28px;
+  bottom: 7px;
+}
+
+
+.nube::after {
+  width: 76px;
+  height: 60px;
+
+  right: 24px;
+  bottom: 5px;
+}
+
+
+.nube-1 {
+  top: 1%;
+  left: 1%;
+
+  transform:
+    scale(.92);
+}
+
+
+.nube-2 {
+  top: 0%;
+  right: 1%;
+
+  transform:
+    scale(.82);
+
+  animation-delay:
+    -10s;
+}
+
+
+.nube-3 {
+  top: 20%;
+  left: 12%;
+
+  transform:
+    scale(.72);
+
+  opacity:
+    .34;
+
+  animation-delay:
+    -5s;
+}
+
+
+.nube-4 {
+  top: 10%;
+  right: 16%;
+
+  transform:
+    scale(.78);
+
+  opacity:
+    .42;
+
+  animation-delay:
+    -16s;
+}
+
+
+.nube-5 {
+  top: 19%;
+  left: 54%;
+
+  transform:
+    scale(.65);
+
+  opacity:
+    .22;
+
+  animation-delay:
+    -20s;
+}
+
+
+.nube-6 {
+  top: 26%;
+  right: 36%;
+
+  transform:
+    scale(.55);
+
+  opacity:
+    .18;
+
+  animation-delay:
+    -28s;
+}
+
+
+/* =========================================
+   BRISA
+   ========================================= */
+
+.brisa {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+}
+
+
+.brisa path {
+  fill: none;
+
+  stroke:
+    #fff;
+
+  stroke-width:
+    2;
+
+  stroke-linecap:
+    round;
+
+  stroke-dasharray:
+    120 900;
+
+  opacity:
+    0;
+
+  animation:
+    pasar-brisa
+    13s
+    linear
+    infinite;
+}
+
+
+.brisa path:nth-child(2) {
+  animation-delay:
+    -5s;
+}
+
+
+.brisa path:nth-child(3) {
+  animation-delay:
+    -9s;
+}
+
+
+/* =========================================
+   TEXTO
+   ========================================= */
+
+.dedicatoria {
+  position: relative;
+
+  z-index: 30;
+
+  width:
+    min(100%, 1020px);
+
+  text-align:
+    center;
+
+  margin-top:
+    12px;
+
+  padding-bottom:
+    10px;
+
+  animation:
+    aparecer
+    1.05s
+    ease
+    both;
+}
+
+
+.fecha {
+  margin:
+    0 0 10px;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    .72rem;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .22em;
+
+  text-transform:
+    uppercase;
+
+  color:
+    #7b6784;
+}
+
+
+h1 {
+  margin: 0;
+
+  font-family:
+    var(--fuente-titulo);
+
+  font-weight:
+    500;
+
+  font-size:
+    clamp(
+      2rem,
+      4vw,
+      4.15rem
+    );
+
+  line-height:
+    1.03;
+
+  letter-spacing:
+    -.03em;
+
+  color:
+    #554461;
+}
+
+
+h1 span,
+h1 em {
+  display: block;
+}
+
+
+h1 em {
+  margin-top:
+    8px;
+
+  color:
+    #c88d10;
+
+  font-family:
+    var(--fuente-acento);
+
+  font-size:
+    1.08em;
+
+  font-style:
+    normal;
+
+  font-weight:
+    600;
+
+  line-height:
+    1.02;
+}
+
+
+.subtitulo {
+  margin:
+    14px 0 0;
+
+  color:
+    #74647d;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    1rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.4;
+}
+
+
+/* =========================================
+   ESCENA
+   ========================================= */
+
+.jardin {
+  position: relative;
+
+  width:
+    100vw;
+
+  max-width:
+    100vw;
+
+  height:
+    100%;
+
+  min-height:
+    0;
+
+  overflow:
+    hidden;
+}
+
+
+.resplandor-sol {
+  position: absolute;
+
+  left: 50%;
+  top: 0;
+
+  width:
+    min(34vw, 420px);
+
+  aspect-ratio:
+    1;
+
+  transform:
+    translateX(-50%);
+
+  border-radius:
+    50%;
+
+  background:
+
+    radial-gradient(
+      circle,
+      #fff4b6 0%,
+      #fff4b62c 40%,
+      #fff4b600 75%
+    );
+
+  opacity:
+    .95;
+
+  z-index:
+    0;
+}
+
+
+/* =========================================
+   COLINAS / VALLE
+   ========================================= */
+
+.colinas {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events:
+    none;
+}
+
+
+.colina {
+  position: absolute;
+
+  border-radius:
+    50% 50% 0 0 /
+    100% 100% 0 0;
+}
+
+
+.colina-1 {
+  left: -2%;
+  right: -2%;
+
+  bottom: -2%;
+
+  height: 38%;
+
+  background:
+
+    linear-gradient(
+      180deg,
+      #d2e4af 0%,
+      #afcc83 48%,
+      #85ae64 100%
+    );
+}
+
+
+.colina-2 {
+  left: -4%;
+
+  width: 42%;
+
+  bottom: 3%;
+
+  height: 20%;
+
+  background:
+
+    linear-gradient(
+      180deg,
+      #c7dd9f 0%,
+      #a0c472 52%,
+      #719954 100%
+    );
+
+  opacity:
+    .95;
+}
+
+
+.colina-3 {
+  right: -4%;
+
+  width: 46%;
+
+  bottom: 3%;
+
+  height: 21%;
+
+  background:
+
+    linear-gradient(
+      180deg,
+      #dbedbf 0%,
+      #b8d58d 52%,
+      #88b465 100%
+    );
+
+  opacity:
+    .96;
+}
+
+
+.colina-4 {
+  left: 23%;
+
+  width: 54%;
+
+  bottom: 10%;
+
+  height: 12%;
+
+  background:
+
+    linear-gradient(
+      180deg,
+      #e2efd0 0%,
+      #cedeaf 55%,
+      #a8c482 100%
+    );
+
+  opacity:
+    .88;
+}
+
+
+.colina-5 {
+  left: 10%;
+
+  width: 80%;
+
+  bottom: 5%;
+
+  height: 9%;
+
+  background:
+
+    linear-gradient(
+      180deg,
+      #cadba6 0%,
+      #aec886 55%,
+      #8baa67 100%
+    );
+
+  opacity:
+    .55;
+}
+
+
+.sendero {
+  display: none;
+}
+
+
+/* =========================================
+   BOSQUE DE GIRASOLES
+   ========================================= */
+
+.campo-girasoles {
+  position: absolute;
+
+  inset: 0;
+
+  z-index:
+    14;
+
+  pointer-events:
+    none;
+}
+
+
+.girasol-item {
+  position: absolute;
+
+  left:
+    var(--x);
+
+  bottom:
+    var(--y);
+
+  width:
+    var(--ancho, 170px);
+
+  height:
+    auto;
+
+  transform:
+    translateX(-50%)
+    rotate(
+      var(--rot, 0deg)
+    );
+
+  opacity:
+    var(--opacidad, 1);
+
+  z-index:
+    var(--z, 14);
+}
+
+
+.girasol-secundario {
+  display: block;
+
+  width:
+    100%;
+
+  height:
+    auto;
+
+  overflow:
+    visible;
+
+  filter:
+    drop-shadow(
+      0
+      8px
+      10px
+      rgba(88, 78, 30, .10)
+    );
+}
+
+
+.girasol-item .planta {
+  transform-origin:
+    250px 556px;
+
+  animation:
+    mecer-secundario
+    var(--duracion, 8s)
+    ease-in-out
+    infinite;
+}
+
+
+.girasol-item .hoja {
+  transform-box:
+    view-box;
+}
+
+
+.girasol-item .hoja-izquierda {
+  transform-origin:
+    249px 416px;
+
+  animation:
+    mover-hoja
+    5.8s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+
+.girasol-item .hoja-derecha {
+  transform-origin:
+    254px 354px;
+
+  animation:
+    mover-hoja
+    6.4s
+    ease-in-out
+    -2s
+    infinite
+    alternate-reverse;
+}
+
+
+.girasol-item .cabeza {
+  animation:
+    inclinar-flor
+    8.3s
+    ease-in-out
+    infinite;
+}
+
+
+.girasol-item .petalo {
+  animation:
+    vibrar-petalo
+    4.8s
+    ease-in-out
+    infinite
+    alternate;
+
+  animation-delay:
+    var(--demora);
+}
+
+
+.girasol-item .vena-petalo {
+  fill:
+    none;
+
+  stroke:
+    #fff1a3;
+
+  stroke-width:
+    1;
+
+  opacity:
+    .55;
+}
+
+
+/* =========================================
+   GIRASOL PRINCIPAL
+   ========================================= */
+
+.resplandor {
+  position: absolute;
+
+  top: 7%;
+  left: 50%;
+
+  width:
+    min(30vw, 380px);
+
+  aspect-ratio:
+    1;
+
+  transform:
+    translateX(-50%);
+
+  border-radius:
+    50%;
+
+  z-index:
+    16;
+
+  background:
+
+    radial-gradient(
+      circle,
+      #ffe79a96,
+      #ffe9a13b 42%,
+      #fff0 70%
+    );
+
+  animation:
+    respirar-luz
+    8s
+    ease-in-out
+    infinite;
+}
+
+
+.girasol {
+  position: absolute;
+
+  left: 50%;
+  bottom: 12%;
+
+  display: block;
+
+  z-index:
+    18;
+
+  width:
+    min(22vw, 320px);
+
+  min-width:
+    200px;
+
+  max-width:
+    360px;
+
+  height:
+    auto;
+
+  aspect-ratio:
+    5 / 6;
+
+  transform:
+    translateX(-50%);
+
+  overflow:
+    visible;
+
+  filter:
+
+    drop-shadow(
+      0
+      14px
+      14px
+      rgba(95, 84, 30, .12)
+    );
+}
+
+
+.planta {
+  transform-origin:
+    250px 556px;
+
+  animation:
+    mecer
+    7s
+    ease-in-out
+    infinite;
+}
+
+
+.hoja {
+  transform-box:
+    view-box;
+}
+
+
+.hoja-izquierda {
+  transform-origin:
+    249px 416px;
+
+  animation:
+    mover-hoja
+    5.6s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+
+.hoja-derecha {
+  transform-origin:
+    254px 354px;
+
+  animation:
+    mover-hoja
+    6.2s
+    ease-in-out
+    -2s
+    infinite
+    alternate-reverse;
+}
+
+
+.cabeza {
+  animation:
+    inclinar-flor
+    8s
+    ease-in-out
+    infinite;
+}
+
+
+.petalo {
+  animation:
+    vibrar-petalo
+    4.6s
+    ease-in-out
+    infinite
+    alternate;
+
+  animation-delay:
+    var(--demora);
+}
+
+
+.vena-petalo {
+  fill: none;
+
+  stroke:
+    #fff1a3;
+
+  stroke-width:
+    1;
+
+  opacity:
+    .55;
+}
+
+
+/* =========================================
+   BASE VERDE
+   ========================================= */
+
+.pradera {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height:
+    12%;
+
+  z-index:
+    4;
+
+  pointer-events:
+    none;
+
+  background:
+
+    linear-gradient(
+      180deg,
+      #8cbc63 0%,
+      #79a953 60%,
+      #6d974a 100%
+    );
+}
+
+
+/*
+  Ya no mostramos las antiguas
+  hierbas cruzadas.
+*/
+
+.linea-hierba-1,
+.linea-hierba-2 {
+  display: none;
+}
+
+
+/* =========================================
+   PÉTALOS VOLANDO
+   ========================================= */
+
+.petalos-sueltos {
+  position: absolute;
+
+  inset: 0;
+
+  z-index:
+    28;
+
+  pointer-events:
+    none;
+}
+
+
+.petalo-volando {
+  position: absolute;
+
+  width:
+    11px;
+
+  height:
+    21px;
+
+  border-radius:
+    85% 15% 75% 25%;
+
+  background:
+
+    linear-gradient(
+      135deg,
+      #ffe886,
+      #efb12a
+    );
+
+  opacity:
+    0;
+
+  animation:
+    volar-petalo
+    var(--duracion, 5s)
+    ease-in-out
+    forwards;
+}
+
+
+/* =========================================
+   BOTÓN
+   ========================================= */
+
+.boton-sorpresa {
+  position: absolute;
+
+  top: 31%;
+  right: 4.5%;
+
+  z-index:
+    24;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    14px;
+
+  padding:
+    13px
+    18px
+    13px
+    14px;
+
+  border:
+    none;
+
+  border-radius:
+    999px;
+
+  background:
+
+    linear-gradient(
+      135deg,
+      #fffdfd 0%,
+      #ffeef7 48%,
+      #fff1b8 100%
+    );
+
+  color:
+    #66456f;
+
+  font-family:
+    var(--fuente-texto);
+
+  text-align:
+    left;
+
+  box-shadow:
+
+    0 14px 30px #7b597c20,
+
+    0 0 0 7px #ffffff2e,
+
+    inset 0 1px 0 #ffffff;
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+
+  animation:
+    flotar-boton
+    3.8s
+    ease-in-out
+    infinite;
+
+  overflow:
+    hidden;
+}
+
+
+.boton-sorpresa:hover {
+  transform:
+    translateY(-4px)
+    scale(1.02);
+
+  box-shadow:
+
+    0 18px 36px #7b597c2d,
+
+    0 0 0 8px #ffffff38,
+
+    inset 0 1px 0 #ffffff;
+}
+
+
+.boton-sorpresa:active {
+  transform:
+    translateY(-1px)
+    scale(.98);
+}
+
+
+.boton-sorpresa:focus-visible {
+  outline:
+    3px solid #8d5ac7;
+
+  outline-offset:
+    5px;
+}
+
+
+.halo-boton {
+  position: absolute;
+
+  inset: -14px;
+
+  border-radius:
+    inherit;
+
+  background:
+
+    radial-gradient(
+      circle,
+      #fff6bd45 0%,
+      #fff0 70%
+    );
+
+  animation:
+    halo-latido
+    2.8s
+    ease-in-out
+    infinite;
+
+  pointer-events:
+    none;
+}
+
+
+.icono-boton,
+.flecha-boton,
+.texto-boton {
+  position:
+    relative;
+
+  z-index:
+    1;
+}
+
+
+.icono-boton {
+  display: grid;
+
+  place-items:
+    center;
+
+  width:
+    40px;
+
+  height:
+    40px;
+
+  border-radius:
+    50%;
+
+  flex-shrink:
+    0;
+
+  background:
+
+    linear-gradient(
+      135deg,
+      #fff8c7,
+      #ffd868
+    );
+
+  color:
+    #8d6715;
+
+  font-size:
+    1.15rem;
+
+  box-shadow:
+
+    inset 0 1px 0 #fff,
+
+    0 4px 10px #b1872e26;
+}
+
+
+.texto-boton {
+  display: flex;
+
+  flex-direction:
+    column;
+
+  line-height:
+    1.1;
+}
+
+
+.texto-boton strong {
+  font-size:
+    .98rem;
+
+  font-weight:
+    800;
+
+  color:
+    #64446c;
+}
+
+
+.texto-boton small {
+  margin-top:
+    3px;
+
+  font-size:
+    .78rem;
+
+  font-weight:
+    700;
+
+  color:
+    #8a6b91;
+}
+
+
+.flecha-boton {
+  font-size:
+    1rem;
+
+  color:
+    #8e6a1b;
+
+  animation:
+    mover-flecha
+    1.4s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================
+   FIRMA
+   ========================================= */
+
+.firma {
+  position: absolute;
+
+  right:
+    22px;
+
+  bottom:
+    10px;
+
+  margin:
+    0;
+
+  z-index:
+    30;
+
+  color:
+    #564161;
+
+  font-family:
+    var(--fuente-acento);
+
+  font-size:
+    2.15rem;
+
+  font-weight:
+    600;
+
+  line-height:
+    1;
+}
+
+
+.firma span {
+  display:
+    inline-block;
+
+  margin-left:
+    2px;
+
+  font-family:
+
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    sans-serif;
+
+  font-size:
+    1.15rem;
+
+  font-weight:
+    400;
+
+  vertical-align:
+    middle;
+}
+
+
+/* =========================================
+   PANTALLA 2
+   TEMPORALMENTE BLANCA
+   ========================================= */
+
+.pantalla-blanca {
+  position: absolute;
+
+  inset: 0;
+
+  width:
+    100%;
+
+  height:
+    100vh;
+
+  height:
+    100svh;
+
+  background:
+    #ffffff;
+
+  opacity:
+    0;
+
+  visibility:
+    hidden;
+
+  pointer-events:
+    none;
+
+  z-index:
+    100;
+
+  transition:
+    opacity .7s ease,
+    visibility .7s ease;
+}
+
+
+.pantalla-blanca.activa {
+  opacity:
+    1;
+
+  visibility:
+    visible;
+
+  pointer-events:
+    auto;
+}
+
+
+/* =========================================
+   ANIMACIONES
+   ========================================= */
+
+@keyframes mecer {
+
+  0%,
+  100% {
+    transform:
+      rotate(-1.3deg);
+  }
+
+  50% {
+    transform:
+      rotate(1.7deg);
+  }
+
+}
+
+
+@keyframes mecer-secundario {
+
+  0%,
+  100% {
+    transform:
+      rotate(-1deg);
+  }
+
+  50% {
+    transform:
+      rotate(1.25deg);
+  }
+
+}
+
+
+@keyframes mover-hoja {
+
+  from {
+    transform:
+      rotate(-2deg);
+  }
+
+  to {
+    transform:
+      rotate(4deg);
+  }
+
+}
+
+
+@keyframes inclinar-flor {
+
+  0%,
+  100% {
+    transform:
+      rotate(.7deg);
+  }
+
+  50% {
+    transform:
+      rotate(-1.6deg);
+  }
+
+}
+
+
+@keyframes vibrar-petalo {
+
+  from {
+    transform:
+      scaleY(.988);
+  }
+
+  to {
+    transform:
+      scaleY(1.018);
+  }
+
+}
+
+
+@keyframes respirar-luz {
+
+  0%,
+  100% {
+    opacity:
+      .66;
+  }
+
+  50% {
+    opacity:
+      1;
+  }
+
+}
+
+
+@keyframes pasear-nube {
+
+  from {
+    translate:
+      -22px 0;
+  }
+
+  to {
+    translate:
+      86px 10px;
+  }
+
+}
+
+
+@keyframes pasar-brisa {
+
+  0% {
+    stroke-dashoffset:
+      800;
+
+    opacity:
+      0;
+  }
+
+  20%,
+  70% {
+    opacity:
+      .45;
+  }
+
+  100% {
+    stroke-dashoffset:
+      -950;
+
+    opacity:
+      0;
+  }
+
+}
+
+
+@keyframes aparecer {
+
+  from {
+    opacity:
+      0;
+
+    transform:
+      translateY(10px);
+  }
+
+  to {
+    opacity:
+      1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+
+@keyframes volar-petalo {
+
+  0% {
+    opacity:
+      0;
+
+    transform:
+      translate(0, 0)
+      rotate(0);
+  }
+
+  12% {
+    opacity:
+      .9;
+  }
+
+  100% {
+    opacity:
+      0;
+
+    transform:
+
+      translate(
+        var(--dx),
+        var(--dy)
+      )
+
+      rotate(
+        var(--giro)
+      );
+  }
+
+}
+
+
+@keyframes flotar-boton {
+
+  0%,
+  100% {
+    transform:
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-4px);
+  }
+
+}
+
+
+@keyframes halo-latido {
+
+  0%,
+  100% {
+    opacity:
+      .45;
+
+    transform:
+      scale(.98);
+  }
+
+  50% {
+    opacity:
+      .85;
+
+    transform:
+      scale(1.04);
+  }
+
+}
+
+
+@keyframes mover-flecha {
+
+  0%,
+  100% {
+    transform:
+      translateX(0);
+  }
+
+  50% {
+    transform:
+      translateX(4px);
+  }
+
+}
+
+
+/* =========================================
+   PANTALLAS MEDIANAS
+   ========================================= */
+
+@media (max-width: 1200px) {
+
+  .girasol {
+    width:
+      min(25vw, 290px);
+
+    min-width:
+      190px;
+  }
+
+
+  .boton-sorpresa {
+    right:
+      2.8%;
+
+    top:
+      33%;
+  }
+
+}
+
+
+/* =========================================
+   CELULARES
+   ========================================= */
+
+@media (max-width: 720px) {
+
+  .bienvenida {
+    padding:
+
+      max(
+        14px,
+        env(safe-area-inset-top)
+      )
+
+      10px
+
+      0;
+  }
+
+
+  .fecha {
+    font-size:
+      .62rem;
+
+    margin-bottom:
+      6px;
+  }
+
+
+  h1 {
+    font-size:
+
+      clamp(
+        1.45rem,
+        7vw,
+        2.2rem
+      );
+
+    line-height:
+      1.08;
+  }
+
+
+  h1 em {
+    margin-top:
+      6px;
+  }
+
+
+  .subtitulo {
+    font-size:
+      .88rem;
+
+    margin-top:
+      10px;
+  }
+
+
+  .girasol {
+    width:
+      min(34vw, 220px);
+
+    min-width:
+      160px;
+  }
+
+
+  .pradera {
+    height:
+      10%;
+  }
+
+
+  .boton-sorpresa {
+    top:
+      43%;
+
+    right:
+      2%;
+
+    gap:
+      10px;
+
+    padding:
+      10px
+      14px
+      10px
+      11px;
+  }
+
+
+  .icono-boton {
+    width:
+      34px;
+
+    height:
+      34px;
+
+    font-size:
+      1rem;
+  }
+
+
+  .texto-boton strong {
+    font-size:
+      .86rem;
+  }
+
+
+  .texto-boton small {
+    font-size:
+      .7rem;
+  }
+
+
+  .firma {
+    right:
+      14px;
+
+    bottom:
+      8px;
+
+    font-size:
+      1.9rem;
+  }
+
+
+  .firma span {
+    font-size:
+      1rem;
+  }
+
+}
+
+
+/* =========================================
+   MOVIMIENTO REDUCIDO
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .bienvenida *,
+  .bienvenida *::before,
+  .bienvenida *::after {
+
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+
+  }
+
+
+  .petalos-sueltos,
+  .brisa {
+
+    display:
+      none;
+
+  }
+
+
+  .pantalla-blanca {
+
+    transition:
+      none;
+
+  }
+
+}
+
+
+/* =========================================
+   PÁGINA NO VISIBLE
+   ========================================= */
+
+html.en-pausa .bienvenida * {
+  animation-play-state:
+    paused !important;
+}

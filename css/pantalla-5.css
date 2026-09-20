@@ -1,0 +1,2139 @@
+/*
+============================================================
+PANTALLA 5
+FINAL CINEMATOGRÁFICO ROMÁNTICO
+============================================================
+*/
+
+
+/* ============================================================
+   PANTALLA
+   ============================================================ */
+
+.pantalla-cinco {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+
+  overflow: hidden;
+
+  z-index: 400;
+
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+
+  color: #fff;
+
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(113,43,74,.28),
+      transparent 32%
+    ),
+
+    radial-gradient(
+      circle at 18% 25%,
+      rgba(46,65,111,.28),
+      transparent 34%
+    ),
+
+    radial-gradient(
+      circle at 84% 72%,
+      rgba(147,87,46,.16),
+      transparent 29%
+    ),
+
+    linear-gradient(
+      145deg,
+
+      #090b18 0%,
+
+      #111426 36%,
+
+      #1b1221 68%,
+
+      #080912 100%
+    );
+
+  transition:
+    opacity .9s ease,
+    visibility .9s ease;
+}
+
+
+.pantalla-cinco.activa {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+
+/* ============================================================
+   FONDO
+   ============================================================ */
+
+.p5-fondo {
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  z-index: 0;
+
+  transition:
+    filter 2.6s ease,
+    transform 3.2s ease,
+    opacity 2.6s ease;
+}
+
+
+/* ============================================================
+   ESTRELLAS / PARTÍCULAS
+   ============================================================ */
+
+.p5-fondo::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+
+    radial-gradient(
+      circle at 10% 16%,
+      rgba(255,255,255,.65) 0 1px,
+      transparent 1.5px
+    ),
+
+    radial-gradient(
+      circle at 21% 70%,
+      rgba(255,227,173,.42) 0 1px,
+      transparent 1.4px
+    ),
+
+    radial-gradient(
+      circle at 36% 27%,
+      rgba(255,255,255,.5) 0 1px,
+      transparent 1.5px
+    ),
+
+    radial-gradient(
+      circle at 59% 18%,
+      rgba(255,232,184,.45) 0 1px,
+      transparent 1.4px
+    ),
+
+    radial-gradient(
+      circle at 77% 31%,
+      rgba(255,255,255,.56) 0 1px,
+      transparent 1.5px
+    ),
+
+    radial-gradient(
+      circle at 87% 74%,
+      rgba(255,229,177,.43) 0 1px,
+      transparent 1.5px
+    ),
+
+    radial-gradient(
+      circle at 66% 83%,
+      rgba(255,255,255,.42) 0 1px,
+      transparent 1.4px
+    );
+
+  opacity:
+    .55;
+}
+
+
+/* ============================================================
+   LUCES
+   ============================================================ */
+
+.p5-luz {
+  position: absolute;
+
+  border-radius: 50%;
+
+  filter:
+    blur(80px);
+
+  opacity: .34;
+
+  animation:
+    p5-luz-flotar
+    9s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+
+.p5-luz-1 {
+  left: -8%;
+  top: 9%;
+
+  width: 36vw;
+  height: 36vw;
+
+  background:
+    rgba(45,65,135,.52);
+}
+
+
+.p5-luz-2 {
+  right: -10%;
+  top: 34%;
+
+  width: 34vw;
+  height: 34vw;
+
+  background:
+    rgba(139,46,80,.43);
+
+  animation-delay:
+    -3s;
+}
+
+
+.p5-luz-3 {
+  left: 34%;
+  bottom: -24%;
+
+  width: 38vw;
+  height: 38vw;
+
+  background:
+    rgba(190,120,54,.18);
+
+  animation-delay:
+    -6s;
+}
+
+
+/* ============================================================
+   VIÑETA
+   ============================================================ */
+
+.p5-vineta {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+
+      transparent 44%,
+
+      rgba(0,0,0,.23) 70%,
+
+      rgba(0,0,0,.66) 100%
+    );
+}
+
+
+/* ============================================================
+   ENCABEZADO
+   ============================================================ */
+
+.p5-encabezado {
+  position: absolute;
+
+  left: 50%;
+  top: 5%;
+
+  width:
+    min(86vw,1050px);
+
+  transform:
+    translateX(-50%)
+    translateY(-23px);
+
+  z-index: 30;
+
+  text-align: center;
+
+  opacity: 0;
+
+  transition:
+    opacity 1.15s ease,
+
+    transform 1.3s
+    cubic-bezier(.17,.8,.25,1),
+
+    filter 2s ease;
+}
+
+
+.pantalla-cinco.mostrar-titulo
+.p5-encabezado {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0);
+}
+
+
+/* ============================================================
+   SOBRETÍTULO
+   ============================================================ */
+
+.p5-sobretitulo {
+  margin:
+    0 0 6px;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    clamp(
+      .62rem,
+      .8vw,
+      .82rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .18em;
+
+  text-transform:
+    uppercase;
+
+  color:
+    rgba(235,210,174,.68);
+}
+
+
+/* ============================================================
+   TÍTULO
+   ============================================================ */
+
+.p5-titulo {
+  margin: 0;
+
+  font-family:
+    "Caveat",
+    var(--fuente-acento),
+    cursive;
+
+  font-size:
+    clamp(
+      2.5rem,
+      4.6vw,
+      5.1rem
+    );
+
+  font-weight:
+    700;
+
+  line-height:
+    .95;
+
+  color:
+    #fff4de;
+
+  text-shadow:
+
+    0 4px 24px
+    rgba(0,0,0,.5),
+
+    0 0 28px
+    rgba(212,138,102,.15);
+}
+
+
+/* ============================================================
+   SUBTÍTULO
+   ============================================================ */
+
+.p5-subtitulo {
+  margin:
+    10px 0 0;
+
+  font-family:
+    "Lora",
+    var(--fuente-titulo),
+    serif;
+
+  font-size:
+    clamp(
+      .78rem,
+      1.05vw,
+      1.05rem
+    );
+
+  font-style:
+    italic;
+
+  color:
+    rgba(244,226,217,.72);
+}
+
+
+/* ============================================================
+   IMAGEN CENTRAL
+   ============================================================ */
+
+.p5-imagen-contenedor {
+  position: absolute;
+
+  left: 50%;
+  bottom: 4%;
+
+  width:
+    min(43vw,610px);
+
+  height:
+    min(70vh,690px);
+
+  z-index: 24;
+
+  opacity: 0;
+
+  transform:
+    translateX(-50%)
+    translateY(45px)
+    scale(.91);
+
+  transform-origin:
+    center bottom;
+
+  transition:
+
+    opacity 1.3s ease,
+
+    transform 2.7s
+    cubic-bezier(.17,.82,.25,1),
+
+    filter 2.4s ease,
+
+    bottom 2.7s
+    cubic-bezier(.2,.8,.22,1);
+}
+
+
+.pantalla-cinco.mostrar-imagen
+.p5-imagen-contenedor {
+  opacity: 1;
+
+  transform:
+    translateX(-50%)
+    translateY(0)
+    scale(1);
+}
+
+
+/* ============================================================
+   HALO
+   ============================================================ */
+
+.p5-imagen-halo {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 112%;
+  height: 86%;
+
+  transform:
+    translate(-50%,-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+
+      rgba(220,160,112,.16),
+
+      rgba(143,74,104,.09) 42%,
+
+      transparent 72%
+    );
+
+  filter:
+    blur(20px);
+
+  animation:
+    p5-halo-respirar
+    5s
+    ease-in-out
+    infinite;
+}
+
+
+/* ============================================================
+   IMAGEN
+   ============================================================ */
+
+.p5-imagen {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  object-position:
+    center bottom;
+
+  user-select:
+    none;
+
+  -webkit-user-drag:
+    none;
+
+  z-index: 2;
+
+  filter:
+    drop-shadow(
+      0 30px 32px
+      rgba(0,0,0,.38)
+    );
+}
+
+
+/* ============================================================
+   FRASE INDIVIDUAL
+   ============================================================ */
+
+.p5-frase-individual {
+  position: absolute;
+
+  left: 5.5%;
+  top: 42%;
+
+  width:
+    min(31vw,430px);
+
+  z-index: 42;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform:
+    translateX(-42px)
+    translateY(4px)
+    scale(.97);
+
+  filter:
+    blur(3px);
+
+  transition:
+
+    opacity .7s ease,
+
+    transform .85s
+    cubic-bezier(.17,.8,.25,1),
+
+    filter .7s ease;
+}
+
+
+/* ============================================================
+   FRASE VISIBLE
+   ============================================================ */
+
+.p5-frase-individual.visible {
+  opacity: 1;
+
+  transform:
+    translateX(0)
+    translateY(0)
+    scale(1);
+
+  filter:
+    blur(0);
+}
+
+
+/* ============================================================
+   FRASE SALIENDO
+   ============================================================ */
+
+.p5-frase-individual.saliendo {
+  opacity: 0;
+
+  transform:
+    translateX(-18px)
+    translateY(-7px)
+    scale(.985);
+
+  filter:
+    blur(2px);
+}
+
+
+/* ============================================================
+   TEXTO DE FRASES
+   ============================================================ */
+
+.p5-frase-texto {
+  margin: 0;
+
+  font-family:
+    "Lora",
+    var(--fuente-titulo),
+    serif;
+
+  font-size:
+    clamp(
+      1rem,
+      1.4vw,
+      1.48rem
+    );
+
+  font-weight:
+    600;
+
+  line-height:
+    1.52;
+
+  color:
+    #fff8ed;
+
+  text-shadow:
+    0 2px 12px
+    rgba(0,0,0,.68);
+}
+
+
+/* ============================================================
+   LÍNEA DORADA
+   ============================================================ */
+
+.p5-frase-linea {
+  width: 74px;
+  height: 2px;
+
+  margin:
+    14px 0 9px;
+
+  border-radius:
+    999px;
+
+  background:
+    linear-gradient(
+      90deg,
+
+      #dfb46c,
+
+      rgba(223,180,108,0)
+    );
+}
+
+
+/* ============================================================
+   FIRMA
+   ============================================================ */
+
+.p5-frase-firma {
+  margin: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    .72rem;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .05em;
+
+  color:
+    rgba(235,214,190,.65);
+}
+
+
+.p5-frase-firma strong {
+  color:
+    #deb16c;
+
+  font-weight:
+    800;
+}
+
+
+/* ============================================================
+   RESUMEN CON TODAS LAS FRASES
+   ============================================================ */
+
+.p5-resumen-frases {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 37;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  transition:
+    opacity 1.3s ease,
+    filter 2.1s ease,
+    transform 2.2s ease;
+}
+
+
+.pantalla-cinco.resumen-activo
+.p5-resumen-frases {
+  opacity: 1;
+}
+
+
+/* ============================================================
+   COLUMNAS
+   ============================================================ */
+
+.p5-resumen-columna {
+  position: absolute;
+
+  top: 24%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content:
+    space-between;
+
+  width:
+    min(28vw,390px);
+
+  height: 65%;
+
+  gap: 15px;
+}
+
+
+.p5-resumen-izquierda {
+  left: 3.4%;
+}
+
+
+.p5-resumen-derecha {
+  right: 3.4%;
+}
+
+
+/* ============================================================
+   FRASES DEL RESUMEN
+   ============================================================ */
+
+.p5-resumen-item {
+  position: relative;
+
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  padding:
+    2px 4px;
+
+  opacity: 0;
+
+  transform:
+    translateY(10px);
+
+  transition:
+    opacity .8s ease,
+    transform .8s ease;
+}
+
+
+/*
+Cada frase entra un poco después.
+*/
+
+.pantalla-cinco.resumen-activo
+.p5-resumen-item {
+  opacity: 1;
+
+  transform:
+    translateY(0);
+}
+
+
+.pantalla-cinco.resumen-activo
+.p5-resumen-item:nth-child(1) {
+  transition-delay:
+    .1s;
+}
+
+
+.pantalla-cinco.resumen-activo
+.p5-resumen-item:nth-child(2) {
+  transition-delay:
+    .25s;
+}
+
+
+.pantalla-cinco.resumen-activo
+.p5-resumen-item:nth-child(3) {
+  transition-delay:
+    .4s;
+}
+
+
+.pantalla-cinco.resumen-activo
+.p5-resumen-item:nth-child(4) {
+  transition-delay:
+    .55s;
+}
+
+
+/* ============================================================
+   TEXTO RESUMEN
+   ============================================================ */
+
+.p5-resumen-texto {
+  margin: 0;
+
+  font-family:
+    "Lora",
+    var(--fuente-titulo),
+    serif;
+
+  font-size:
+    clamp(
+      .72rem,
+      .9vw,
+      .95rem
+    );
+
+  font-weight:
+    500;
+
+  line-height:
+    1.42;
+
+  color:
+    rgba(255,246,234,.87);
+
+  text-shadow:
+    0 2px 10px
+    rgba(0,0,0,.6);
+}
+
+
+/* ============================================================
+   FIRMA RESUMEN
+   ============================================================ */
+
+.p5-resumen-firma {
+  margin:
+    6px 0 0;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    clamp(
+      .5rem,
+      .57vw,
+      .61rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .045em;
+
+  color:
+    rgba(227,205,181,.55);
+}
+
+
+.p5-resumen-firma span {
+  padding:
+    0 3px;
+
+  color:
+    rgba(218,178,111,.45);
+}
+
+
+.p5-resumen-firma strong {
+  color:
+    #d9ad68;
+
+  font-weight:
+    800;
+}
+
+
+/* ============================================================
+   PEQUEÑO ACENTO EN CADA FRASE
+   ============================================================ */
+
+.p5-resumen-item::after {
+  content: "";
+
+  display: block;
+
+  width: 45px;
+  height: 1px;
+
+  margin-top:
+    8px;
+
+  background:
+    linear-gradient(
+      90deg,
+
+      rgba(218,172,101,.64),
+
+      transparent
+    );
+}
+
+
+.p5-resumen-derecha
+.p5-resumen-item {
+  text-align: right;
+}
+
+
+.p5-resumen-derecha
+.p5-resumen-item::after {
+  align-self: flex-end;
+
+  background:
+    linear-gradient(
+      90deg,
+
+      transparent,
+
+      rgba(218,172,101,.64)
+    );
+}
+
+
+/* ============================================================
+   FINAL
+   ============================================================ */
+
+.p5-final {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 50;
+
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   RESPLANDOR FINAL
+   ============================================================ */
+
+.p5-final-resplandor {
+  position: absolute;
+
+  left: 50%;
+  top: 47%;
+
+  width: 72vw;
+  height: 52vh;
+
+  transform:
+    translate(-50%,-50%)
+    scale(.7);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+
+      rgba(177,62,93,.2),
+
+      rgba(222,166,105,.09) 38%,
+
+      transparent 70%
+    );
+
+  filter:
+    blur(24px);
+
+  opacity: 0;
+
+  transition:
+    opacity 2.1s ease,
+    transform 3s ease;
+}
+
+
+/* ============================================================
+   TE AMO MI HEIDY
+   ============================================================ */
+
+.p5-mensaje-final {
+  position: absolute;
+
+  left: 50%;
+  top: 7.5%;
+
+  width: 92%;
+
+  margin: 0;
+
+  transform:
+    translateX(-50%)
+    translateY(-28px)
+    scale(.82);
+
+  text-align: center;
+
+  font-family:
+    "Caveat",
+    var(--fuente-acento),
+    cursive;
+
+  font-size:
+    clamp(
+      3.5rem,
+      7vw,
+      7.6rem
+    );
+
+  font-weight:
+    700;
+
+  line-height:
+    .93;
+
+  letter-spacing:
+    -.02em;
+
+  color:
+    rgba(255,240,225,0);
+
+  text-shadow:
+    0 0 40px
+    rgba(211,71,105,0);
+
+  opacity: 0;
+
+  transition:
+
+    opacity 2.2s ease,
+
+    transform 3s
+    cubic-bezier(.17,.8,.22,1),
+
+    color 2.1s ease,
+
+    text-shadow 2.3s ease;
+}
+
+
+.p5-mensaje-final span {
+  display:
+    inline-block;
+
+  font-size:
+    .58em;
+}
+
+
+/* ============================================================
+   CONTADOR FINAL
+   ============================================================ */
+
+.p5-contador-bloque {
+  position: absolute;
+
+  right: 4.5%;
+  bottom: 4%;
+
+  width:
+    min(42vw,570px);
+
+  text-align: right;
+
+  opacity: 0;
+
+  transform:
+    translateY(28px);
+
+  transition:
+    opacity 1.7s ease 1.4s,
+    transform 1.9s ease 1.4s;
+}
+
+
+/* ============================================================
+   TEXTO SOBRE CONTADOR
+   ============================================================ */
+
+.p5-contador-titulo {
+  margin:
+    0 0 12px;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    clamp(
+      .53rem,
+      .66vw,
+      .68rem
+    );
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    .2em;
+
+  text-transform:
+    uppercase;
+
+  color:
+    rgba(236,213,183,.62);
+}
+
+
+/* ============================================================
+   CONTADOR
+   ============================================================ */
+
+.p5-contador {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: flex-end;
+
+  gap:
+    clamp(
+      7px,
+      1.2vw,
+      17px
+    );
+}
+
+
+/* ============================================================
+   UNIDAD
+   ============================================================ */
+
+.p5-tiempo {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  min-width:
+    clamp(
+      56px,
+      7vw,
+      94px
+    );
+}
+
+
+/* ============================================================
+   NÚMEROS
+   ============================================================ */
+
+.p5-tiempo strong {
+  font-family:
+    "Nunito",
+    var(--fuente-texto),
+    sans-serif;
+
+  font-size:
+    clamp(
+      2.1rem,
+      4.6vw,
+      4.6rem
+    );
+
+  font-weight:
+    300;
+
+  line-height:
+    .88;
+
+  letter-spacing:
+    -.045em;
+
+  color:
+    #f7e2bd;
+
+  text-shadow:
+    0 0 22px
+    rgba(221,166,92,.18);
+}
+
+
+.p5-tiempo strong.cambio {
+  animation:
+    p5-numero-cambio
+    .35s ease;
+}
+
+
+/* ============================================================
+   DÍAS / HORAS / MIN
+   ============================================================ */
+
+.p5-tiempo span {
+  margin-top:
+    8px;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    clamp(
+      .45rem,
+      .59vw,
+      .6rem
+    );
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    .17em;
+
+  color:
+    rgba(229,202,170,.5);
+}
+
+
+/* ============================================================
+   :
+   ============================================================ */
+
+.p5-separador {
+  margin-top:
+    -18px;
+
+  font-family:
+    "Nunito",
+    sans-serif;
+
+  font-size:
+    clamp(
+      1.7rem,
+      3.7vw,
+      3.7rem
+    );
+
+  font-weight:
+    200;
+
+  color:
+    rgba(204,151,91,.53);
+}
+
+
+/* ============================================================
+   FECHA
+   ============================================================ */
+
+.p5-fecha-meta {
+  margin:
+    13px 0 0;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    .67rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    .3em;
+
+  color:
+    #cfa363;
+}
+
+
+/* ============================================================
+   DESPEDIDA
+   ============================================================ */
+
+.p5-despedida {
+  margin:
+    12px 0 0;
+
+  font-family:
+    "Caveat",
+    var(--fuente-acento),
+    cursive;
+
+  font-size:
+    clamp(
+      1.35rem,
+      2vw,
+      2.1rem
+    );
+
+  font-weight:
+    600;
+
+  color:
+    rgba(255,237,220,.87);
+}
+
+
+/* ============================================================
+   GRAN FINAL
+   ============================================================ */
+
+
+/*
+------------------------------------------------------------
+El fondo se desenfoca.
+------------------------------------------------------------
+*/
+
+.pantalla-cinco.final-activo
+.p5-fondo {
+  filter:
+    blur(10px)
+    brightness(.5);
+
+  transform:
+    scale(1.07);
+
+  opacity:
+    .77;
+}
+
+
+/*
+------------------------------------------------------------
+El encabezado original pierde protagonismo.
+------------------------------------------------------------
+*/
+
+.pantalla-cinco.final-activo
+.p5-encabezado {
+  opacity:
+    .05;
+
+  filter:
+    blur(4px);
+
+  transform:
+    translateX(-50%)
+    translateY(-10px)
+    scale(.97);
+}
+
+
+/*
+------------------------------------------------------------
+Las frases se limpian/desenfocan.
+------------------------------------------------------------
+*/
+
+.pantalla-cinco.final-activo
+.p5-resumen-frases {
+  opacity:
+    .07;
+
+  filter:
+    blur(5px);
+
+  transform:
+    scale(.98);
+}
+
+
+/*
+------------------------------------------------------------
+La frase individual desaparece.
+------------------------------------------------------------
+*/
+
+.pantalla-cinco.final-activo
+.p5-frase-individual {
+  opacity:
+    0 !important;
+}
+
+
+/*
+------------------------------------------------------------
+LA IMAGEN NO SE DESENFOCA.
+
+Solamente crece suavemente.
+------------------------------------------------------------
+*/
+
+.pantalla-cinco.final-activo
+.p5-imagen-contenedor {
+  bottom:
+    2%;
+
+  transform:
+    translateX(-50%)
+    translateY(0)
+    scale(1.105);
+
+  filter:
+    brightness(1.04)
+    saturate(1.045);
+}
+
+
+/*
+------------------------------------------------------------
+Halo.
+------------------------------------------------------------
+*/
+
+.pantalla-cinco.final-activo
+.p5-final-resplandor {
+  opacity:
+    1;
+
+  transform:
+    translate(-50%,-50%)
+    scale(1.18);
+}
+
+
+/*
+------------------------------------------------------------
+TE AMO MI HEIDY.
+------------------------------------------------------------
+*/
+
+.pantalla-cinco.final-activo
+.p5-mensaje-final {
+  opacity:
+    1;
+
+  transform:
+    translateX(-50%)
+    translateY(0)
+    scale(1);
+
+  color:
+    rgba(255,239,226,.96);
+
+  text-shadow:
+
+    0 5px 32px
+    rgba(0,0,0,.68),
+
+    0 0 55px
+    rgba(211,71,105,.35),
+
+    0 0 90px
+    rgba(215,164,90,.14);
+}
+
+
+/*
+------------------------------------------------------------
+CONTADOR.
+------------------------------------------------------------
+*/
+
+.pantalla-cinco.final-activo
+.p5-contador-bloque {
+  opacity:
+    1;
+
+  transform:
+    translateY(0);
+}
+
+
+/* ============================================================
+   ANIMACIONES
+   ============================================================ */
+
+@keyframes p5-luz-flotar {
+
+  from {
+
+    transform:
+      translate(-10px,-8px)
+      scale(.95);
+
+  }
+
+
+  to {
+
+    transform:
+      translate(18px,15px)
+      scale(1.07);
+
+  }
+
+}
+
+
+@keyframes p5-halo-respirar {
+
+  0%,
+  100% {
+
+    opacity:
+      .58;
+
+    transform:
+      translate(-50%,-50%)
+      scale(.97);
+
+  }
+
+
+  50% {
+
+    opacity:
+      .86;
+
+    transform:
+      translate(-50%,-50%)
+      scale(1.04);
+
+  }
+
+}
+
+
+@keyframes p5-numero-cambio {
+
+  0% {
+
+    opacity:
+      .35;
+
+    transform:
+      translateY(-5px);
+
+  }
+
+
+  100% {
+
+    opacity:
+      1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media
+(max-width:1100px) {
+
+  .p5-imagen-contenedor {
+
+    width:
+      min(48vw,560px);
+
+    height:
+      min(65vh,620px);
+
+  }
+
+
+  .p5-frase-individual {
+
+    left:
+      4%;
+
+    width:
+      min(31vw,350px);
+
+  }
+
+
+  .p5-frase-texto {
+
+    font-size:
+      clamp(
+        .9rem,
+        1.25vw,
+        1.2rem
+      );
+
+  }
+
+
+  .p5-resumen-columna {
+
+    width:
+      min(27vw,330px);
+
+  }
+
+
+  .p5-resumen-texto {
+
+    font-size:
+      .73rem;
+
+  }
+
+
+  .p5-contador-bloque {
+
+    right:
+      3%;
+
+  }
+
+}
+
+
+/* ============================================================
+   MÓVIL
+   ============================================================ */
+
+@media
+(max-width:760px) {
+
+  .p5-encabezado {
+
+    top:
+      4%;
+
+    width:
+      calc(100vw - 34px);
+
+  }
+
+
+  .p5-sobretitulo {
+
+    font-size:
+      .5rem;
+
+  }
+
+
+  .p5-titulo {
+
+    font-size:
+      clamp(
+        2.2rem,
+        10vw,
+        3.6rem
+      );
+
+  }
+
+
+  .p5-subtitulo {
+
+    font-size:
+      .7rem;
+
+  }
+
+
+  /* ========================================================
+     IMAGEN
+     ======================================================== */
+
+  .p5-imagen-contenedor {
+
+    bottom:
+      13%;
+
+    width:
+      min(78vw,470px);
+
+    height:
+      59vh;
+
+  }
+
+
+  /* ========================================================
+     FRASE INDIVIDUAL
+     ======================================================== */
+
+  .p5-frase-individual {
+
+    left:
+      50%;
+
+    top:
+      auto;
+
+    bottom:
+      7%;
+
+    width:
+      calc(100vw - 38px);
+
+    text-align:
+      center;
+
+    transform:
+      translateX(-50%)
+      translateY(18px)
+      scale(.96);
+
+  }
+
+
+  .p5-frase-individual.visible {
+
+    transform:
+      translateX(-50%)
+      translateY(0)
+      scale(1);
+
+  }
+
+
+  .p5-frase-individual.saliendo {
+
+    transform:
+      translateX(-50%)
+      translateY(-8px)
+      scale(.985);
+
+  }
+
+
+  .p5-frase-linea {
+
+    margin:
+      11px auto 8px;
+
+    background:
+      linear-gradient(
+        90deg,
+
+        transparent,
+
+        #dfb46c,
+
+        transparent
+      );
+
+  }
+
+
+  .p5-frase-firma {
+
+    justify-content:
+      center;
+
+  }
+
+
+  .p5-frase-texto {
+
+    font-size:
+      .91rem;
+
+    line-height:
+      1.42;
+
+  }
+
+
+  /* ========================================================
+     RESUMEN
+
+     En móvil no podemos hacer dos columnas muy estrechas,
+     así que seguimos usando dos lados pero compactos.
+     ======================================================== */
+
+  .p5-resumen-columna {
+
+    top:
+      27%;
+
+    width:
+      42vw;
+
+    height:
+      57%;
+
+    gap:
+      6px;
+
+  }
+
+
+  .p5-resumen-izquierda {
+
+    left:
+      3%;
+
+  }
+
+
+  .p5-resumen-derecha {
+
+    right:
+      3%;
+
+  }
+
+
+  .p5-resumen-texto {
+
+    font-size:
+      clamp(
+        .48rem,
+        1.9vw,
+        .62rem
+      );
+
+    line-height:
+      1.25;
+
+  }
+
+
+  .p5-resumen-firma {
+
+    font-size:
+      .39rem;
+
+    margin-top:
+      3px;
+
+  }
+
+
+  .p5-resumen-item::after {
+
+    width:
+      26px;
+
+    margin-top:
+      4px;
+
+  }
+
+
+  /* ========================================================
+     FINAL
+     ======================================================== */
+
+  .p5-mensaje-final {
+
+    top:
+      6.5%;
+
+    width:
+      95%;
+
+    font-size:
+      clamp(
+        3.2rem,
+        15vw,
+        5.8rem
+      );
+
+    line-height:
+      .9;
+
+  }
+
+
+  .pantalla-cinco.final-activo
+  .p5-imagen-contenedor {
+
+    bottom:
+      12%;
+
+    transform:
+      translateX(-50%)
+      translateY(0)
+      scale(1.07);
+
+  }
+
+
+  /* ========================================================
+     CONTADOR
+     ======================================================== */
+
+  .p5-contador-bloque {
+
+    right:
+      3%;
+
+    bottom:
+      2.5%;
+
+    width:
+      75vw;
+
+  }
+
+
+  .p5-contador {
+
+    gap:
+      5px;
+
+  }
+
+
+  .p5-tiempo {
+
+    min-width:
+      50px;
+
+  }
+
+
+  .p5-tiempo strong {
+
+    font-size:
+      clamp(
+        1.65rem,
+        8vw,
+        2.7rem
+      );
+
+  }
+
+
+  .p5-separador {
+
+    margin-top:
+      -14px;
+
+    font-size:
+      1.8rem;
+
+  }
+
+
+  .p5-contador-titulo {
+
+    font-size:
+      .45rem;
+
+  }
+
+
+  .p5-fecha-meta {
+
+    margin-top:
+      7px;
+
+    font-size:
+      .5rem;
+
+  }
+
+
+  .p5-despedida {
+
+    margin-top:
+      6px;
+
+    font-size:
+      1.2rem;
+
+  }
+
+}
+
+
+/* ============================================================
+   PANTALLAS BAJAS
+   ============================================================ */
+
+@media
+(max-height:720px)
+and
+(min-width:761px) {
+
+  .p5-encabezado {
+
+    top:
+      2.5%;
+
+  }
+
+
+  .p5-titulo {
+
+    font-size:
+      clamp(
+        2.3rem,
+        4vw,
+        4rem
+      );
+
+  }
+
+
+  .p5-imagen-contenedor {
+
+    bottom:
+      1%;
+
+    height:
+      min(67vh,570px);
+
+  }
+
+
+  .p5-frase-individual {
+
+    top:
+      41%;
+
+  }
+
+
+  .p5-frase-texto {
+
+    font-size:
+      .92rem;
+
+  }
+
+
+  .p5-resumen-columna {
+
+    top:
+      23%;
+
+    height:
+      68%;
+
+  }
+
+
+  .p5-resumen-texto {
+
+    font-size:
+      .66rem;
+
+    line-height:
+      1.3;
+
+  }
+
+
+  .p5-mensaje-final {
+
+    top:
+      4%;
+
+    font-size:
+      clamp(
+        3.2rem,
+        6vw,
+        6rem
+      );
+
+  }
+
+
+  .p5-contador-bloque {
+
+    right:
+      2.5%;
+
+    bottom:
+      1.5%;
+
+  }
+
+
+  .p5-despedida {
+
+    margin-top:
+      5px;
+
+  }
+
+}
+
+
+/* ============================================================
+   MOVIMIENTO REDUCIDO
+   ============================================================ */
+
+@media
+(prefers-reduced-motion:reduce) {
+
+  .pantalla-cinco *,
+  .pantalla-cinco *::before,
+  .pantalla-cinco *::after {
+
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+
+  }
+
+}
+
+
+/* ============================================================
+   PAUSA
+   ============================================================ */
+
+html.en-pausa
+.pantalla-cinco * {
+
+  animation-play-state:
+    paused !important;
+
+}

@@ -1,0 +1,1110 @@
+/*
+============================================================
+PANTALLA 3
+Persona de referencia + ramo gigante + carta
+============================================================
+*/
+
+
+.pantalla-tres {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+
+  overflow: hidden;
+
+  z-index: 200;
+
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+
+  /*
+    Transparente.
+
+    Pantalla 2 permanece debajo,
+    por lo que seguimos viendo
+    el castillo completamente revelado.
+  */
+
+  background:
+    transparent;
+
+  transition:
+    opacity .6s ease,
+    visibility .6s ease;
+}
+
+
+.pantalla-tres.activa {
+  opacity: 1;
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+
+/* ============================================================
+   PERSONA
+   ============================================================ */
+
+.p3-personaje {
+  position: absolute;
+
+  /*
+    Está a la izquierda para que
+    el pergamino tenga espacio.
+  */
+
+  left: 1.5%;
+  bottom: 0;
+
+  width:
+    min(48vw, 650px);
+
+  height:
+    min(84vh, 790px);
+
+  z-index: 5;
+
+  opacity: 0;
+
+  transform:
+    translate(-65px, 24px)
+    scale(.95);
+
+  transform-origin:
+    center bottom;
+
+  pointer-events: none;
+
+  transition:
+    opacity .95s ease,
+
+    transform 1.25s
+    cubic-bezier(.16,.78,.25,1);
+}
+
+
+.pantalla-tres.mostrar-personaje
+.p3-personaje {
+  opacity: 1;
+
+  transform:
+    translate(0,0)
+    scale(1);
+}
+
+
+/* ============================================================
+   SOMBRA
+   ============================================================ */
+
+.p3-sombra-personaje {
+  position: absolute;
+
+  left: 8%;
+  bottom: 1%;
+
+  width: 68%;
+  height: 6%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(47,52,38,.26),
+      rgba(47,52,38,0) 72%
+    );
+
+  filter:
+    blur(6px);
+
+  transform:
+    rotate(-2deg);
+}
+
+
+/* ============================================================
+   CONTENEDOR DE MOVIMIENTO
+   ============================================================ */
+
+.p3-personaje-movimiento {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: flex-end;
+
+  transform-origin:
+    44% 96%;
+
+  animation:
+    p3-persona-respirar
+    5.2s
+    ease-in-out
+    infinite;
+}
+
+
+/* ============================================================
+   IMAGEN PERSONA
+   ============================================================ */
+
+.p3-personaje-img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  object-position:
+    center bottom;
+
+  user-select: none;
+
+  -webkit-user-drag: none;
+
+  filter:
+    drop-shadow(
+      0 18px 22px
+      rgba(52,47,53,.17)
+    );
+
+  /*
+    El balanceo es mínimo,
+    porque la imagen ya representa
+    perfectamente la postura.
+  */
+
+  transform-origin:
+    45% 94%;
+
+  animation:
+    p3-persona-balanceo
+    4.6s
+    ease-in-out
+    infinite;
+}
+
+
+/* ============================================================
+   PERGAMINO
+   ============================================================ */
+
+.p3-pergamino {
+  position: absolute;
+
+  right: 5.2%;
+  top: 50%;
+
+  width:
+    min(44vw, 590px);
+
+  max-height:
+    calc(100svh - 70px);
+
+  padding:
+    38px 45px 34px;
+
+  border:
+    1px solid
+    rgba(154,111,57,.3);
+
+  border-radius:
+    21px 16px 22px 17px;
+
+  background:
+    linear-gradient(
+      105deg,
+      rgba(218,177,104,.17),
+      transparent 17%,
+      transparent 82%,
+      rgba(178,126,60,.13)
+    ),
+    radial-gradient(
+      circle at 38% 20%,
+      rgba(255,255,255,.75),
+      transparent 41%
+    ),
+    linear-gradient(
+      180deg,
+      #fff9df 0%,
+      #f9eabc 52%,
+      #f3dca5 100%
+    );
+
+  box-shadow:
+    0 32px 70px
+    rgba(69,52,67,.25),
+
+    0 10px 23px
+    rgba(84,62,42,.16),
+
+    inset 0 0 38px
+    rgba(167,113,43,.12);
+
+  color:
+    #604a50;
+
+  z-index: 20;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transform:
+    translateY(-47%)
+    translateX(45px)
+    scale(.88)
+    rotate(.6deg);
+
+  transition:
+    opacity .65s ease,
+
+    transform .75s
+    cubic-bezier(.17,.79,.24,1),
+
+    visibility .65s ease;
+}
+
+
+/* ============================================================
+   ROLLOS PERGAMINO
+   ============================================================ */
+
+.p3-pergamino::before,
+.p3-pergamino::after {
+  content: "";
+
+  position: absolute;
+
+  left: 24px;
+  right: 24px;
+
+  height: 22px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ebcf8f,
+      #f8e8bb 48%,
+      #d9b36e
+    );
+
+  box-shadow:
+    0 4px 9px
+    rgba(99,68,35,.17);
+
+  z-index: -1;
+}
+
+
+.p3-pergamino::before {
+  top: -11px;
+}
+
+
+.p3-pergamino::after {
+  bottom: -11px;
+}
+
+
+/* ============================================================
+   MOSTRAR
+   ============================================================ */
+
+.pantalla-tres.mostrar-pergamino
+.p3-pergamino {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+
+  transform:
+    translateY(-50%)
+    translateX(0)
+    scale(1)
+    rotate(-.25deg);
+}
+
+
+/* ============================================================
+   CERRAR
+   ============================================================ */
+
+.p3-pergamino.cerrando {
+  opacity: 0 !important;
+
+  pointer-events: none;
+
+  transform:
+    translateY(-50%)
+    translateX(35px)
+    scale(.84)
+    rotate(1.2deg) !important;
+}
+
+
+.p3-pergamino.cerrado {
+  display: none;
+}
+
+
+/* ============================================================
+   MARCO
+   ============================================================ */
+
+.p3-pergamino-marco {
+  position: absolute;
+
+  inset: 14px;
+
+  border:
+    1px solid
+    rgba(155,105,43,.17);
+
+  border-radius: 15px;
+
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   CORAZÓN
+   ============================================================ */
+
+.p3-corazon {
+  display: block;
+
+  margin:
+    -8px auto 5px;
+
+  text-align: center;
+
+  font-size:
+    1rem;
+
+  color:
+    #be735f;
+
+  opacity:
+    .82;
+}
+
+
+/* ============================================================
+   TÍTULO
+   ============================================================ */
+
+.p3-titulo {
+  margin:
+    0 0 13px;
+
+  font-family:
+    "Caveat",
+    var(--fuente-acento),
+    cursive;
+
+  font-size:
+    clamp(
+      1.65rem,
+      2.1vw,
+      2.25rem
+    );
+
+  line-height: 1;
+
+  font-weight: 600;
+
+  text-align: center;
+
+  color:
+    #6c4d56;
+}
+
+
+/* ============================================================
+   TEXTO
+   ============================================================ */
+
+.p3-texto {
+  margin:
+    0 0 11px;
+
+  font-family:
+    "Lora",
+    var(--fuente-titulo),
+    serif;
+
+  font-size:
+    clamp(
+      .88rem,
+      1.03vw,
+      1.02rem
+    );
+
+  line-height: 1.48;
+
+  font-weight: 500;
+
+  text-align: center;
+
+  color:
+    #5b484d;
+}
+
+
+.p3-texto-final {
+  margin-bottom: 15px;
+}
+
+
+/* ============================================================
+   PALABRAS IMPORTANTES
+   ============================================================ */
+
+.p3-resalte {
+  color:
+    #aa3e4f;
+
+  font-weight: 700;
+}
+
+
+/* ============================================================
+   FIRMA
+   ============================================================ */
+
+.p3-firma {
+  margin:
+    8px 0 0;
+
+  font-family:
+    "Caveat",
+    var(--fuente-acento),
+    cursive;
+
+  font-size:
+    1.25rem;
+
+  font-weight: 600;
+
+  text-align: right;
+
+  color:
+    #97684f;
+}
+
+
+/* ============================================================
+   X
+   ============================================================ */
+
+.p3-cerrar {
+  position: absolute;
+
+  top: 11px;
+  right: 12px;
+
+  display: grid;
+
+  place-items: center;
+
+  width: 33px;
+  height: 33px;
+
+  padding: 0;
+
+  border:
+    1px solid
+    rgba(126,86,49,.19);
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,251,232,.92);
+
+  color:
+    #775861;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    .9rem;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  z-index: 8;
+
+  box-shadow:
+    0 5px 13px
+    rgba(92,61,42,.11);
+
+  transition:
+    transform .2s ease,
+    background .2s ease;
+}
+
+
+.p3-cerrar:hover {
+  transform:
+    rotate(8deg)
+    scale(1.08);
+
+  background:
+    #fffdf2;
+}
+
+
+.p3-cerrar:active {
+  transform:
+    scale(.93);
+}
+
+
+/* ============================================================
+   BOTÓN FINAL
+   ============================================================ */
+
+.p3-siguiente {
+  position: absolute;
+
+  right: 7%;
+  bottom: 9%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  min-width:
+    315px;
+
+  padding:
+    13px 20px 13px 14px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.72);
+
+  border-radius:
+    999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,246,187,.96),
+      rgba(255,213,87,.95)
+    );
+
+  box-shadow:
+    0 16px 32px
+    rgba(94,71,46,.18),
+
+    0 0 26px
+    rgba(255,218,89,.19);
+
+  color:
+    #674f49;
+
+  z-index: 25;
+
+  cursor: pointer;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transform:
+    translateY(18px)
+    scale(.92);
+
+  transition:
+    opacity .55s ease,
+
+    transform .65s
+    cubic-bezier(.17,.82,.25,1),
+
+    visibility .55s ease,
+
+    box-shadow .25s ease;
+}
+
+
+/* ============================================================
+   MOSTRAR BOTÓN
+   ============================================================ */
+
+.pantalla-tres.mostrar-boton
+.p3-siguiente {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  animation:
+    p3-boton-respirar
+    3s
+    ease-in-out
+    infinite;
+}
+
+
+/* ============================================================
+   SIN ACCIÓN TODAVÍA
+   ============================================================ */
+
+.p3-siguiente:hover {
+  box-shadow:
+    0 18px 36px
+    rgba(94,71,46,.21),
+
+    0 0 35px
+    rgba(255,218,89,.3);
+}
+
+
+.p3-siguiente:active {
+  transform:
+    translateY(2px)
+    scale(.97) !important;
+}
+
+
+/* ============================================================
+   HALO
+   ============================================================ */
+
+.p3-siguiente-halo {
+  position: absolute;
+
+  inset: -7px;
+
+  border-radius:
+    999px;
+
+  border:
+    1px solid
+    rgba(255,227,102,.26);
+
+  opacity: .65;
+
+  animation:
+    p3-halo-boton
+    2.8s
+    ease-in-out
+    infinite;
+}
+
+
+/* ============================================================
+   ICONO
+   ============================================================ */
+
+.p3-siguiente-icono {
+  display: grid;
+
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255,255,255,.63);
+
+  color:
+    #bd8432;
+
+  font-size:
+    1.25rem;
+
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(183,131,50,.12);
+}
+
+
+/* ============================================================
+   TEXTO BOTÓN
+   ============================================================ */
+
+.p3-siguiente-texto {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  flex: 1;
+}
+
+
+.p3-siguiente-texto strong {
+  font-family:
+    "Caveat",
+    var(--fuente-acento),
+    cursive;
+
+  font-size:
+    1.35rem;
+
+  line-height: 1;
+
+  font-weight: 700;
+}
+
+
+.p3-siguiente-texto small {
+  margin-top: 3px;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size:
+    .72rem;
+
+  font-weight: 700;
+
+  opacity: .72;
+}
+
+
+.p3-siguiente-flecha {
+  font-size:
+    1.25rem;
+
+  transition:
+    transform .22s ease;
+}
+
+
+.p3-siguiente:hover
+.p3-siguiente-flecha {
+  transform:
+    translateX(4px);
+}
+
+
+/* ============================================================
+   ANIMACIONES PERSONA
+   ============================================================ */
+
+@keyframes p3-persona-respirar {
+
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(-.15deg);
+  }
+
+  50% {
+    transform:
+      translateY(-2px)
+      rotate(.15deg);
+  }
+
+}
+
+
+@keyframes p3-persona-balanceo {
+
+  0%,
+  100% {
+    transform:
+      rotate(-.35deg)
+      translateY(0);
+  }
+
+  50% {
+    transform:
+      rotate(.4deg)
+      translateY(1.5px);
+  }
+
+}
+
+
+/* ============================================================
+   BOTÓN
+   ============================================================ */
+
+@keyframes p3-boton-respirar {
+
+  0%,
+  100% {
+    box-shadow:
+      0 16px 32px
+      rgba(94,71,46,.18),
+
+      0 0 23px
+      rgba(255,218,89,.18);
+  }
+
+  50% {
+    box-shadow:
+      0 18px 38px
+      rgba(94,71,46,.22),
+
+      0 0 37px
+      rgba(255,218,89,.31);
+  }
+
+}
+
+
+@keyframes p3-halo-boton {
+
+  0%,
+  100% {
+    transform:
+      scale(.98);
+
+    opacity:
+      .28;
+  }
+
+  50% {
+    transform:
+      scale(1.045);
+
+    opacity:
+      .7;
+  }
+
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+  .p3-personaje {
+    left: -1%;
+
+    width:
+      min(53vw, 620px);
+
+    height:
+      min(80vh, 720px);
+  }
+
+
+  .p3-pergamino {
+    right: 3%;
+
+    width:
+      min(47vw, 535px);
+
+    padding:
+      34px 36px 30px;
+  }
+
+
+  .p3-texto {
+    font-size:
+      .86rem;
+
+    line-height:
+      1.42;
+  }
+
+}
+
+
+/* ============================================================
+   MÓVIL
+   ============================================================ */
+
+@media (max-width: 760px) {
+
+  .p3-personaje {
+    left: -12%;
+
+    bottom: -1%;
+
+    width:
+      min(91vw, 550px);
+
+    height:
+      65vh;
+
+    opacity:
+      .78;
+  }
+
+
+  .pantalla-tres.mostrar-personaje
+  .p3-personaje {
+    opacity:
+      .88;
+  }
+
+
+  .p3-pergamino {
+    left: 50%;
+    right: auto;
+
+    top: 43%;
+
+    width:
+      calc(100vw - 30px);
+
+    max-width:
+      440px;
+
+    padding:
+      34px 27px 27px;
+
+    transform:
+      translate(-50%, -46%)
+      translateY(25px)
+      scale(.88);
+  }
+
+
+  .pantalla-tres.mostrar-pergamino
+  .p3-pergamino {
+    transform:
+      translate(-50%, -50%)
+      scale(1)
+      rotate(-.15deg);
+  }
+
+
+  .p3-pergamino.cerrando {
+    transform:
+      translate(-50%, -50%)
+      translateY(25px)
+      scale(.84)
+      rotate(.5deg) !important;
+  }
+
+
+  .p3-titulo {
+    font-size:
+      1.55rem;
+  }
+
+
+  .p3-texto {
+    font-size:
+      .8rem;
+
+    line-height:
+      1.36;
+
+    margin-bottom:
+      8px;
+  }
+
+
+  .p3-firma {
+    font-size:
+      1.1rem;
+  }
+
+
+  .p3-siguiente {
+    left: 50%;
+    right: auto;
+
+    bottom: 6%;
+
+    width:
+      calc(100vw - 32px);
+
+    max-width:
+      380px;
+
+    min-width: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(18px)
+      scale(.92);
+  }
+
+
+  .pantalla-tres.mostrar-boton
+  .p3-siguiente {
+    transform:
+      translateX(-50%)
+      translateY(0)
+      scale(1);
+  }
+
+
+  .p3-siguiente:active {
+    transform:
+      translateX(-50%)
+      translateY(2px)
+      scale(.97) !important;
+  }
+
+}
+
+
+/* ============================================================
+   MOVIMIENTO REDUCIDO
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .pantalla-tres *,
+  .pantalla-tres *::before,
+  .pantalla-tres *::after {
+
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+
+  }
+
+}
+
+
+html.en-pausa
+.pantalla-tres * {
+
+  animation-play-state:
+    paused !important;
+
+}
+
+ 

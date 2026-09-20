@@ -1,0 +1,1873 @@
+/*
+============================================================
+PANTALLA 2
+Bosque de 24 girasoles + castillo + pergaminos
+============================================================
+*/
+
+
+.pantalla-dos {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+
+  overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 50% 14%,
+      rgba(255, 247, 190, .83),
+      transparent 23%
+    ),
+    linear-gradient(
+      180deg,
+      #ddd7f0 0%,
+      #ebe2f6 27%,
+      #f6efd7 56%,
+      #d7e9bd 77%,
+      #83ae5e 100%
+    );
+
+  z-index: 100;
+
+  transition:
+    opacity .8s ease,
+    visibility .8s ease;
+}
+
+
+.pantalla-dos.activa {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+
+/* ============================================================
+   INDICACIÓN
+   ============================================================ */
+
+.p2-instruccion {
+  position: absolute;
+
+  top: 22px;
+  left: 25px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  width:
+    min(
+      330px,
+      calc(100vw - 40px)
+    );
+
+  padding:
+    11px 14px 11px 12px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.7);
+
+  border-radius:
+    18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.78),
+      rgba(255,250,228,.65)
+    );
+
+  backdrop-filter:
+    blur(10px);
+
+  -webkit-backdrop-filter:
+    blur(10px);
+
+  box-shadow:
+    0 10px 30px
+    rgba(78,65,82,.11);
+
+  z-index: 35;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  transform:
+    translateY(-8px)
+    scale(.97);
+
+  transition:
+    opacity .55s ease,
+    transform .55s ease,
+    background .45s ease;
+}
+
+
+.pantalla-dos.activa
+.p2-instruccion {
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+}
+
+
+.p2-instruccion-icono {
+  display: grid;
+
+  place-items: center;
+
+  flex: 0 0 auto;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #fffad0,
+      #ffe568 48%,
+      #f5bc36
+    );
+
+  box-shadow:
+    0 4px 12px
+    rgba(221,166,45,.23),
+
+    0 0 0 5px
+    rgba(255,225,93,.12);
+
+  font-size: 1.25rem;
+
+  animation:
+    p2-icono-instruccion
+    2.7s
+    ease-in-out
+    infinite;
+}
+
+
+.p2-instruccion-contenido {
+  display: flex;
+
+  flex-direction: column;
+
+  flex: 1;
+
+  min-width: 0;
+}
+
+
+.p2-instruccion-titulo {
+  font-family:
+    "Caveat",
+    var(--fuente-acento),
+    cursive;
+
+  font-size: 1.2rem;
+
+  font-weight: 600;
+
+  line-height: 1;
+
+  color:
+    #67546e;
+
+  white-space: nowrap;
+}
+
+
+.p2-instruccion-subtitulo {
+  margin-top: 3px;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size: .67rem;
+
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  color:
+    rgba(91,78,97,.7);
+
+  white-space: nowrap;
+}
+
+
+.p2-instruccion-barra {
+  position: relative;
+
+  width: 100%;
+  height: 4px;
+
+  margin-top: 7px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background:
+    rgba(126,101,133,.11);
+}
+
+
+.p2-instruccion-barra-relleno {
+  display: block;
+
+  width:
+    var(--p2-progreso, 0%);
+
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      90deg,
+      #f5c745,
+      #ffdf65,
+      #f2b93d
+    );
+
+  box-shadow:
+    0 0 8px
+    rgba(247,197,58,.35);
+
+  transition:
+    width .55s
+    cubic-bezier(.2,.75,.3,1);
+}
+
+
+.p2-instruccion-contador {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 auto;
+
+  min-width: 43px;
+  height: 43px;
+
+  border-radius: 14px;
+
+  background:
+    rgba(255,255,255,.65);
+
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(133,104,139,.1);
+}
+
+
+.p2-instruccion-contador strong {
+  font-family:
+    "Caveat",
+    var(--fuente-acento),
+    cursive;
+
+  font-size: 1.22rem;
+
+  font-weight: 700;
+
+  line-height: .92;
+
+  color:
+    #765f7c;
+}
+
+
+.p2-instruccion-contador small {
+  margin-top: 2px;
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size: .53rem;
+
+  font-weight: 700;
+
+  color:
+    rgba(93,79,98,.56);
+}
+
+
+.p2-instruccion.completada {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,244,.9),
+      rgba(255,241,185,.82)
+    );
+
+  box-shadow:
+    0 12px 35px
+    rgba(122,91,57,.14),
+
+    0 0 26px
+    rgba(255,218,84,.18);
+}
+
+
+.p2-instruccion.completada
+.p2-instruccion-titulo {
+  color:
+    #765334;
+}
+
+
+.p2-instruccion.completada
+.p2-instruccion-barra-relleno {
+  background:
+    linear-gradient(
+      90deg,
+      #edbd39,
+      #ffe673,
+      #edbd39
+    );
+}
+
+
+.p2-instruccion.oculta {
+  opacity: 0 !important;
+
+  transform:
+    translateY(-10px)
+    scale(.96);
+
+  transition-delay: 0s;
+}
+
+
+/* ============================================================
+   CIELO
+   ============================================================ */
+
+.p2-cielo {
+  position: absolute;
+  inset: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+.p2-sol {
+  position: absolute;
+
+  left: 50%;
+  top: 5%;
+
+  width:
+    min(31vw, 450px);
+
+  aspect-ratio: 1;
+
+  transform:
+    translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,247,185,.95) 0%,
+      rgba(255,242,172,.32) 43%,
+      rgba(255,242,172,0) 74%
+    );
+
+  filter:
+    blur(2px);
+
+  animation:
+    p2-respirar-sol
+    8s
+    ease-in-out
+    infinite;
+}
+
+
+/* ============================================================
+   NUBES
+   ============================================================ */
+
+.p2-nube {
+  position: absolute;
+
+  width: 260px;
+  height: 50px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,.72);
+
+  filter:
+    blur(4px);
+
+  opacity: .55;
+
+  animation:
+    p2-nube-flotar
+    38s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+
+.p2-nube::before,
+.p2-nube::after {
+  content: "";
+
+  position: absolute;
+
+  border-radius: 50%;
+
+  background: inherit;
+}
+
+
+.p2-nube::before {
+  width: 105px;
+  height: 78px;
+
+  left: 35px;
+  bottom: 8px;
+}
+
+
+.p2-nube::after {
+  width: 90px;
+  height: 65px;
+
+  right: 30px;
+  bottom: 5px;
+}
+
+
+.p2-nube-1 {
+  left: -2%;
+  top: 5%;
+}
+
+
+.p2-nube-2 {
+  right: 0%;
+  top: 9%;
+
+  transform:
+    scale(.82);
+
+  animation-delay:
+    -10s;
+}
+
+
+.p2-nube-3 {
+  left: 19%;
+  top: 23%;
+
+  opacity: .27;
+
+  transform:
+    scale(.68);
+
+  animation-delay:
+    -19s;
+}
+
+
+.p2-nube-4 {
+  right: 20%;
+  top: 20%;
+
+  opacity: .24;
+
+  transform:
+    scale(.63);
+
+  animation-delay:
+    -27s;
+}
+
+
+/* ============================================================
+   BRISA
+   ============================================================ */
+
+.p2-brisa {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+}
+
+
+.p2-brisa path {
+  fill: none;
+
+  stroke:
+    rgba(255,255,255,.6);
+
+  stroke-width: 2;
+
+  stroke-linecap: round;
+
+  stroke-dasharray:
+    130 950;
+
+  opacity: 0;
+
+  animation:
+    p2-brisa-pasar
+    14s
+    linear
+    infinite;
+}
+
+
+.p2-brisa path:nth-child(2) {
+  animation-delay:
+    -5s;
+}
+
+
+.p2-brisa path:nth-child(3) {
+  animation-delay:
+    -9s;
+}
+
+
+/* ============================================================
+   MONTAÑAS
+   ============================================================ */
+
+.p2-montanas {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+
+.p2-montana {
+  position: absolute;
+
+  border-radius:
+    55% 55% 0 0 /
+    100% 100% 0 0;
+}
+
+
+.p2-montana-1 {
+  left: -10%;
+  bottom: 26%;
+
+  width: 63%;
+  height: 23%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #dce9c7,
+      #b9d19a
+    );
+
+  opacity: .8;
+}
+
+
+.p2-montana-2 {
+  right: -10%;
+  bottom: 24%;
+
+  width: 67%;
+  height: 25%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #e4edcf,
+      #b1cc91
+    );
+
+  opacity: .86;
+}
+
+
+.p2-montana-3 {
+  left: 17%;
+  bottom: 22%;
+
+  width: 68%;
+  height: 17%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #d2e3b6,
+      #a8c781
+    );
+
+  opacity: .72;
+}
+
+
+/* ============================================================
+   CASTILLO
+   ============================================================ */
+
+.p2-castillo-contenedor {
+  position: absolute;
+
+  left: 50%;
+
+  /*
+    Mientras todavía existen girasoles,
+    el castillo queda más lejos.
+  */
+
+  top: 9%;
+
+  width:
+    min(45vw, 680px);
+
+  min-width: 360px;
+
+  transform:
+    translateX(-50%)
+    translateY(4px)
+    scale(.90);
+
+  transform-origin:
+    center bottom;
+
+  opacity: .41;
+
+  filter:
+    blur(4.8px)
+    saturate(.9);
+
+  /*
+    Antes del final:
+    queda detrás de la colina.
+  */
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  transition:
+    opacity 1.9s ease,
+
+    filter 2s ease,
+
+    transform 2s
+    cubic-bezier(.18,.78,.25,1),
+
+    top 2s
+    cubic-bezier(.18,.78,.25,1),
+
+    width 2s
+    cubic-bezier(.18,.78,.25,1);
+}
+
+
+/* ============================================================
+   REVELADO FINAL
+
+   AQUÍ CORREGIMOS EL PROBLEMA DE LA PUERTA.
+   ============================================================ */
+
+.p2-castillo-contenedor.revelado {
+  /*
+    El valle está en z-index 4.
+
+    Cuando se revela,
+    el castillo sube a 8.
+
+    Por eso absolutamente ninguna
+    loma vuelve a tapar la puerta.
+  */
+
+  z-index: 8;
+
+  opacity: 1 !important;
+
+  /*
+    Se acerca un poquito y baja
+    ligeramente para enseñar
+    desde la torre hasta los escalones.
+  */
+
+  top: 5.5%;
+
+  width:
+    min(49vw, 735px);
+
+  transform:
+    translateX(-50%)
+    translateY(0)
+    scale(1) !important;
+
+  filter:
+    blur(0px)
+    saturate(1.08)
+    brightness(1.035)
+    contrast(1.045) !important;
+}
+
+
+/* ============================================================
+   RESPLANDOR
+   ============================================================ */
+
+.p2-resplandor-castillo {
+  position: absolute;
+
+  left: 50%;
+  top: 45%;
+
+  width: 122%;
+  height: 76%;
+
+  transform:
+    translate(-50%, -50%)
+    scale(.87);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,245,173,.38),
+      rgba(255,239,169,.1) 53%,
+      transparent 75%
+    );
+
+  filter:
+    blur(22px);
+
+  opacity: .38;
+
+  transition:
+    opacity 1.8s ease,
+    transform 2s ease;
+}
+
+
+.p2-castillo-contenedor.revelado
+.p2-resplandor-castillo {
+  opacity: .72;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1.16);
+
+  animation:
+    p2-resplandor-castillo-final
+    4.5s
+    ease-in-out
+    infinite;
+}
+
+
+/* ============================================================
+   SVG CASTILLO
+   ============================================================ */
+
+.p2-castillo {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  opacity: 1;
+
+  overflow: visible;
+
+  filter:
+    drop-shadow(
+      0 18px 30px
+      rgba(70,59,83,.16)
+    );
+
+  transition:
+    filter 1.9s ease,
+    opacity 1.9s ease;
+}
+
+
+.p2-castillo-contenedor.revelado
+.p2-castillo {
+  opacity: 1 !important;
+
+  filter:
+    saturate(1.1)
+    contrast(1.07)
+    brightness(1.045)
+
+    drop-shadow(
+      0 18px 25px
+      rgba(57,47,75,.23)
+    )
+
+    drop-shadow(
+      0 0 10px
+      rgba(255,235,145,.17)
+    ) !important;
+}
+
+
+/* ============================================================
+   BANDERA
+   ============================================================ */
+
+.p2-bandera {
+  transform-origin:
+    492px -120px;
+
+  opacity: 1;
+
+  animation:
+    p2-bandera-flamear
+    2.7s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+
+/* ============================================================
+   VALLE
+   ============================================================ */
+
+.p2-valle {
+  position: absolute;
+
+  left: -3%;
+  right: -3%;
+  bottom: -3%;
+
+  height: 37%;
+
+  z-index: 4;
+
+  background:
+    linear-gradient(
+      180deg,
+      #a9cd7b 0%,
+      #88b45d 39%,
+      #709a4c 100%
+    );
+
+  border-radius:
+    48% 52% 0 0 /
+    19% 21% 0 0;
+
+  pointer-events: none;
+}
+
+
+.p2-valle::before {
+  content: "";
+
+  position: absolute;
+
+  left: -5%;
+  right: 31%;
+  top: -20%;
+
+  height: 48%;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #c6dfa1,
+      #93bd68
+    );
+
+  opacity: .92;
+}
+
+
+.p2-valle::after {
+  content: "";
+
+  position: absolute;
+
+  left: 40%;
+  right: -10%;
+  top: -17%;
+
+  height: 42%;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #d0e5ae,
+      #95bf6c
+    );
+
+  opacity: .87;
+}
+
+
+/* ============================================================
+   GIRASOLES
+   ============================================================ */
+
+.p2-campo-girasoles {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 10;
+
+  pointer-events: auto;
+}
+
+
+.p2-flor {
+  position: absolute;
+
+  left:
+    var(--x);
+
+  bottom:
+    var(--y);
+
+  width:
+    var(--tamano);
+
+  transform:
+    translateX(-50%)
+    rotate(
+      var(--rotacion)
+    );
+
+  transform-origin:
+    center bottom;
+
+  opacity:
+    var(--opacidad);
+
+  z-index:
+    var(--profundidad);
+
+  cursor: pointer;
+
+  user-select: none;
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+  outline: none;
+
+  transition:
+    filter .25s ease,
+    opacity .25s ease;
+}
+
+
+.p2-flor svg {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  overflow: visible;
+
+  filter:
+    drop-shadow(
+      0 8px 8px
+      rgba(74,73,41,.1)
+    );
+
+  transform-origin:
+    center bottom;
+
+  animation:
+    p2-girasol-mecer
+    var(--velocidad)
+    ease-in-out
+    infinite;
+}
+
+
+.p2-flor::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  top: 18%;
+
+  width: 47%;
+
+  aspect-ratio: 1;
+
+  transform:
+    translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,236,118,.32),
+      rgba(255,228,82,.12) 43%,
+      transparent 70%
+    );
+
+  opacity: .1;
+
+  animation:
+    p2-flor-pulso
+    2.8s
+    ease-in-out
+    infinite;
+
+  animation-delay:
+    var(--retraso);
+
+  pointer-events: none;
+}
+
+
+.p2-flor:hover,
+.p2-flor:focus-visible {
+  filter:
+    brightness(1.055)
+    drop-shadow(
+      0 0 12px
+      rgba(255,226,93,.42)
+    );
+}
+
+
+.p2-flor.seleccionada {
+  z-index: 18;
+
+  filter:
+    brightness(1.08)
+    drop-shadow(
+      0 0 18px
+      rgba(255,227,92,.5)
+    );
+}
+
+
+.p2-flor.desapareciendo {
+  pointer-events: none;
+
+  animation:
+    p2-flor-desaparecer
+    .9s
+    cubic-bezier(.2,.76,.25,1)
+    forwards;
+}
+
+
+.p2-flor.completada {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+
+/* ============================================================
+   EFECTOS
+   ============================================================ */
+
+.p2-efectos {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 28;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+
+.p2-petalo-despedida {
+  position: absolute;
+
+  left:
+    var(--inicio-x);
+
+  top:
+    var(--inicio-y);
+
+  width:
+    var(--ancho, 11px);
+
+  height:
+    calc(
+      var(--ancho, 11px)
+      * 1.8
+    );
+
+  border-radius:
+    90% 10% 80% 20%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff19a,
+      #ffd34d 52%,
+      #dfa022
+    );
+
+  opacity: 0;
+
+  animation:
+    p2-petalo-despedida
+    var(--duracion, 1.5s)
+    cubic-bezier(.15,.65,.28,1)
+    forwards;
+}
+
+
+/* ============================================================
+   PERGAMINO
+   ============================================================ */
+
+.p2-pergamino {
+  --pergamino-x:
+    50vw;
+
+  --pergamino-y:
+    45vh;
+
+  position: fixed;
+
+  left:
+    var(--pergamino-x);
+
+  top:
+    var(--pergamino-y);
+
+  width:
+    clamp(
+      315px,
+      31vw,
+      470px
+    );
+
+  max-width:
+    calc(100vw - 36px);
+
+  overflow: visible;
+
+  z-index: 1000;
+
+  padding:
+    30px 38px 26px;
+
+  border:
+    1px solid
+    rgba(157,112,54,.28);
+
+  border-radius:
+    17px 14px 18px 14px;
+
+  color:
+    #624b47;
+
+  background:
+    linear-gradient(
+      105deg,
+      rgba(230,195,126,.16),
+      transparent 16%,
+      transparent 82%,
+      rgba(177,128,65,.12)
+    ),
+    radial-gradient(
+      circle at 40% 25%,
+      rgba(255,255,255,.65),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      #fff7d9 0%,
+      #f9e9bd 51%,
+      #f5dfaa 100%
+    );
+
+  box-shadow:
+    0 28px 60px
+    rgba(75,54,71,.24),
+
+    0 8px 18px
+    rgba(94,72,47,.14),
+
+    inset 0 0 35px
+    rgba(176,124,50,.12);
+
+  transform:
+    translate(-50%, -50%)
+    scale(.72)
+    rotate(-1.2deg);
+
+  transform-origin: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  pointer-events: none;
+
+  transition:
+    opacity .3s ease,
+
+    transform .42s
+    cubic-bezier(.18,.8,.26,1),
+
+    visibility .3s ease;
+}
+
+
+.p2-pergamino::before,
+.p2-pergamino::after {
+  content: "";
+
+  position: absolute;
+
+  left: 20px;
+  right: 20px;
+
+  height: 18px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #edd294,
+      #f8e7bb 48%,
+      #dcb875
+    );
+
+  box-shadow:
+    0 3px 8px
+    rgba(104,73,37,.18);
+
+  z-index: -1;
+}
+
+
+.p2-pergamino::before {
+  top: -9px;
+}
+
+
+.p2-pergamino::after {
+  bottom: -9px;
+}
+
+
+.p2-pergamino.abierto {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1)
+    rotate(-.35deg);
+}
+
+
+.p2-pergamino.cerrando {
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(.82)
+    rotate(.8deg);
+
+  pointer-events: none;
+}
+
+
+.p2-pergamino-marco {
+  position: absolute;
+
+  inset: 12px;
+
+  border:
+    1px solid
+    rgba(155,105,43,.17);
+
+  border-radius: 12px;
+
+  pointer-events: none;
+}
+
+
+.p2-pergamino-corazon {
+  display: block;
+
+  margin:
+    -3px auto 8px;
+
+  color:
+    #c88e63;
+
+  font-size: .86rem;
+
+  text-align: center;
+
+  opacity: .8;
+}
+
+
+.p2-pergamino-frase {
+  margin: 0;
+
+  font-family:
+    var(--fuente-titulo);
+
+  font-size:
+    clamp(
+      .93rem,
+      1.15vw,
+      1.08rem
+    );
+
+  font-weight: 500;
+
+  line-height: 1.48;
+
+  text-align: center;
+
+  color:
+    #5d4850;
+}
+
+
+.p2-pergamino-referencia {
+  margin:
+    14px 0 0;
+
+  font-family:
+    var(--fuente-acento);
+
+  font-size: 1.02rem;
+
+  font-weight: 600;
+
+  line-height: 1.18;
+
+  text-align: right;
+
+  color:
+    #987153;
+}
+
+
+.p2-pergamino.compacto {
+  width:
+    min(
+      calc(100vw - 32px),
+      490px
+    );
+
+  padding:
+    27px 32px 23px;
+}
+
+
+.p2-pergamino.compacto
+.p2-pergamino-frase {
+  font-size: .88rem;
+
+  line-height: 1.38;
+}
+
+
+/* ============================================================
+   X
+   ============================================================ */
+
+.p2-pergamino-cerrar {
+  position: absolute;
+
+  top: 9px;
+  right: 10px;
+
+  display: grid;
+
+  place-items: center;
+
+  width: 30px;
+  height: 30px;
+
+  padding: 0;
+
+  border:
+    1px solid
+    rgba(126,86,49,.18);
+
+  border-radius: 50%;
+
+  color:
+    #74575e;
+
+  background:
+    rgba(255,250,230,.92);
+
+  font-family:
+    var(--fuente-texto);
+
+  font-size: .9rem;
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  box-shadow:
+    0 4px 12px
+    rgba(97,66,45,.1);
+
+  cursor: pointer;
+
+  z-index: 10;
+}
+
+
+/* ============================================================
+   ANIMACIONES
+   ============================================================ */
+
+@keyframes p2-icono-instruccion {
+
+  0%,
+  100% {
+    transform:
+      translateY(0)
+      rotate(-2deg);
+  }
+
+  50% {
+    transform:
+      translateY(-3px)
+      rotate(3deg)
+      scale(1.07);
+  }
+
+}
+
+
+@keyframes p2-respirar-sol {
+
+  0%,
+  100% {
+    opacity: .72;
+
+    transform:
+      translateX(-50%)
+      scale(.97);
+  }
+
+  50% {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      scale(1.04);
+  }
+
+}
+
+
+@keyframes p2-nube-flotar {
+
+  from {
+    translate:
+      -28px 0;
+  }
+
+  to {
+    translate:
+      90px 7px;
+  }
+
+}
+
+
+@keyframes p2-brisa-pasar {
+
+  0% {
+    stroke-dashoffset: 900;
+    opacity: 0;
+  }
+
+  18% {
+    opacity: .35;
+  }
+
+  72% {
+    opacity: .28;
+  }
+
+  100% {
+    stroke-dashoffset: -1050;
+    opacity: 0;
+  }
+
+}
+
+
+@keyframes p2-bandera-flamear {
+
+  from {
+    transform:
+      skewY(-1.8deg)
+      scaleX(.97);
+  }
+
+  to {
+    transform:
+      skewY(2.8deg)
+      scaleX(1.045);
+  }
+
+}
+
+
+@keyframes p2-girasol-mecer {
+
+  0%,
+  100% {
+    transform:
+      rotate(-1.4deg);
+  }
+
+  50% {
+    transform:
+      rotate(1.8deg);
+  }
+
+}
+
+
+@keyframes p2-flor-pulso {
+
+  0%,
+  100% {
+    opacity: .08;
+
+    transform:
+      translate(-50%, -50%)
+      scale(.86);
+  }
+
+  50% {
+    opacity: .72;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.19);
+  }
+
+}
+
+
+@keyframes p2-flor-desaparecer {
+
+  0% {
+    opacity:
+      var(--opacidad);
+
+    transform:
+      translateX(-50%)
+      translateY(0)
+      scale(1)
+      rotate(
+        var(--rotacion)
+      );
+  }
+
+  35% {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(-8px)
+      scale(1.035)
+      rotate(-1deg);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(-34px)
+      scale(.64)
+      rotate(5deg);
+
+    filter:
+      blur(2px)
+      brightness(1.3);
+  }
+
+}
+
+
+@keyframes p2-petalo-despedida {
+
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(0,0)
+      rotate(0deg)
+      scale(.75);
+  }
+
+  12% {
+    opacity: .95;
+  }
+
+  60% {
+    opacity: .86;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(
+        var(--viaje-x),
+        var(--viaje-y)
+      )
+      rotate(
+        var(--giro)
+      )
+      scale(.5);
+  }
+
+}
+
+
+@keyframes p2-resplandor-castillo-final {
+
+  0%,
+  100% {
+    opacity: .52;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.08);
+  }
+
+  50% {
+    opacity: .76;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.17);
+  }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+  .p2-castillo-contenedor {
+    width:
+      min(52vw, 620px);
+
+    top: 11%;
+  }
+
+
+  .p2-castillo-contenedor.revelado {
+    top: 7%;
+
+    width:
+      min(56vw, 675px);
+  }
+
+}
+
+
+@media (max-width: 720px) {
+
+  .p2-instruccion {
+    top: 13px;
+    left: 13px;
+
+    width:
+      min(
+        300px,
+        calc(100vw - 26px)
+      );
+
+    gap: 9px;
+
+    padding:
+      9px 10px;
+  }
+
+
+  .p2-instruccion-icono {
+    width: 34px;
+    height: 34px;
+
+    font-size: 1.05rem;
+  }
+
+
+  .p2-instruccion-titulo {
+    font-size: 1.05rem;
+  }
+
+
+  .p2-instruccion-subtitulo {
+    font-size: .61rem;
+  }
+
+
+  .p2-instruccion-contador {
+    min-width: 38px;
+    height: 38px;
+  }
+
+
+  .p2-castillo-contenedor {
+    width:
+      min(76vw, 470px);
+
+    min-width: 290px;
+
+    top: 18%;
+
+    opacity: .36;
+
+    filter:
+      blur(5.3px)
+      saturate(.89);
+  }
+
+
+  .p2-castillo-contenedor.revelado {
+    z-index: 8;
+
+    opacity: 1 !important;
+
+    top: 12%;
+
+    width:
+      min(84vw, 520px);
+
+    transform:
+      translateX(-50%)
+      scale(1) !important;
+
+    filter:
+      blur(0px)
+      saturate(1.08)
+      brightness(1.035)
+      contrast(1.045) !important;
+  }
+
+
+  .p2-valle {
+    height: 42%;
+  }
+
+
+  .p2-pergamino {
+    width:
+      min(
+        calc(100vw - 24px),
+        400px
+      );
+
+    max-width:
+      calc(100vw - 24px);
+
+    padding:
+      29px 27px 24px;
+  }
+
+
+  .p2-pergamino-frase {
+    font-size: .92rem;
+
+    line-height: 1.42;
+  }
+
+}
+
+
+/* ============================================================
+   MOVIMIENTO REDUCIDO
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .pantalla-dos *,
+  .pantalla-dos *::before,
+  .pantalla-dos *::after {
+
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+
+  }
+
+}
+
+
+html.en-pausa
+.pantalla-dos * {
+
+  animation-play-state:
+    paused !important;
+
+}
