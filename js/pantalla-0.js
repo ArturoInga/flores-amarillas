@@ -6,7 +6,15 @@
   ============================================================
   PANTALLA 0
   4 VIDEOS VERTICALES
-  OPTIMIZADA PARA TABLET / MÓVIL
+
+  VERSIÓN OPTIMIZADA PARA:
+  - TABLET
+  - CELULAR
+  - LAPTOP
+  - GITHUB PAGES
+
+  IMPORTANTE:
+  NO cambia el diseño visual.
   ============================================================
   */
 
@@ -19,6 +27,12 @@
   ];
 
 
+  /*
+  ============================================================
+  ESTADO GENERAL
+  ============================================================
+  */
+
   let indiceActual = 0;
 
   let iniciada = false;
@@ -27,9 +41,34 @@
 
   let terminada = false;
 
-  let videoPrecarga = null;
-
   let temporizadorFallback = null;
+
+
+  /*
+  ============================================================
+  PRECARGA INTELIGENTE
+  ============================================================
+  */
+
+  const videosPreparados =
+    new Map();
+
+
+  let precargaActiva = null;
+
+  let controladorPrecarga = null;
+
+  let precargaPermitida = true;
+
+
+  /*
+  Buffer mínimo antes de permitir
+  una descarga secundaria.
+
+  No afecta visualmente nada.
+  */
+
+  const BUFFER_SEGURO_SEGUNDOS = 10;
 
 
   /*
@@ -71,24 +110,38 @@
 
     pantalla.innerHTML = `
 
-      <!-- FONDO -->
+      <!-- =================================================
+           FONDO
+           ================================================= -->
 
       <div
         class="p0-fondo"
         aria-hidden="true"
       >
 
-        <div class="p0-luz p0-luz-1"></div>
-        <div class="p0-luz p0-luz-2"></div>
-        <div class="p0-luz p0-luz-3"></div>
+        <div
+          class="p0-luz p0-luz-1"
+        ></div>
 
-        <div class="p0-vineta"></div>
+        <div
+          class="p0-luz p0-luz-2"
+        ></div>
+
+        <div
+          class="p0-luz p0-luz-3"
+        ></div>
+
+        <div
+          class="p0-vineta"
+        ></div>
 
       </div>
 
 
 
-      <!-- INTRO -->
+      <!-- =================================================
+           INTRODUCCIÓN
+           ================================================= -->
 
       <div
         class="p0-intro"
@@ -140,7 +193,9 @@
 
 
 
-      <!-- ESCENARIO -->
+      <!-- =================================================
+           ESCENARIO
+           ================================================= -->
 
       <div
         class="p0-escenario"
@@ -167,7 +222,9 @@
 
 
 
-        <!-- TELÉFONO -->
+        <!-- =================================================
+             TELÉFONO
+             ================================================= -->
 
         <div
           class="p0-telefono-zona"
@@ -218,7 +275,9 @@
 
 
 
-        <!-- CTA FINAL -->
+        <!-- =================================================
+             CTA FINAL
+             ================================================= -->
 
         <div
           class="p0-cierre"
@@ -338,8 +397,12 @@
                   transform="translate(70 70)"
                 >
 
+                  <!-- PÉTALOS TRASEROS -->
+
                   ${Array.from(
-                    { length: 18 },
+                    {
+                      length: 18
+                    },
                     (_, i) => `
 
                       <ellipse
@@ -355,8 +418,12 @@
                   ).join("")}
 
 
+                  <!-- PÉTALOS DELANTEROS -->
+
                   ${Array.from(
-                    { length: 18 },
+                    {
+                      length: 18
+                    },
                     (_, i) => `
 
                       <ellipse
@@ -386,8 +453,12 @@
                   ></circle>
 
 
+                  <!-- SEMILLAS -->
+
                   ${Array.from(
-                    { length: 44 },
+                    {
+                      length: 44
+                    },
                     (_, i) => {
 
                       const angulo =
@@ -455,7 +526,9 @@
 
 
 
-        <!-- INDICADOR -->
+        <!-- =================================================
+             INDICADOR
+             ================================================= -->
 
         <div
           class="p0-indicador"
@@ -474,10 +547,21 @@
             aria-hidden="true"
           >
 
-            <span class="p0-punto activo"></span>
-            <span class="p0-punto"></span>
-            <span class="p0-punto"></span>
-            <span class="p0-punto"></span>
+            <span
+              class="p0-punto activo"
+            ></span>
+
+            <span
+              class="p0-punto"
+            ></span>
+
+            <span
+              class="p0-punto"
+            ></span>
+
+            <span
+              class="p0-punto"
+            ></span>
 
           </div>
 
@@ -499,51 +583,28 @@
 
     /*
     ============================================================
-    PREPARAR VIDEO 1 DESDE EL INICIO
+    PREPARAR VIDEO 1 DESDE QUE ABRE LA WEB
     ============================================================
-    Esto ocurre mientras la persona todavía
-    está leyendo la introducción.
+
+    Mientras se lee la introducción,
+    el navegador ya puede ir preparando
+    el primer video.
     */
 
 
     const video =
-      document.getElementById(
-        "p0-video"
-      );
+      obtenerVideo();
 
 
     if (video) {
 
-      video.preload =
-        "auto";
-
-
-      video.playsInline =
-        true;
-
-
-      video.setAttribute(
-        "playsinline",
-        ""
-      );
-
-
-      video.setAttribute(
-        "webkit-playsinline",
-        ""
+      configurarVideo(
+        video
       );
 
 
       video.src =
         VIDEOS[0];
-
-
-      /*
-      Dejamos que el navegador empiece
-      a preparar el archivo.
-
-      No reproducimos todavía.
-      */
 
 
       try {
@@ -553,13 +614,20 @@
       } catch (error) {
 
         console.warn(
-          "No se pudo preparar el primer video.",
+          "No se pudo preparar video 1.",
           error
         );
 
       }
 
     }
+
+
+    /*
+    ============================================================
+    MOSTRAR PANTALLA
+    ============================================================
+    */
 
 
     requestAnimationFrame(
@@ -578,7 +646,7 @@
 
         if (preloader) {
 
-          setTimeout(
+          window.setTimeout(
             () => {
 
               preloader.remove();
@@ -594,6 +662,76 @@
 
 
     prepararEventos();
+
+
+    /*
+    Comenzamos a vigilar cuándo
+    tenemos suficiente buffer para
+    preparar el siguiente video.
+    */
+
+
+    iniciarSistemaPrecarga();
+
+  }
+
+
+  /*
+  ============================================================
+  OBTENER VIDEO
+  ============================================================
+  */
+
+  function obtenerVideo() {
+
+    return document.getElementById(
+      "p0-video"
+    );
+
+  }
+
+
+  /*
+  ============================================================
+  CONFIGURACIÓN GENERAL DEL VIDEO
+  ============================================================
+  */
+
+  function configurarVideo(
+    video
+  ) {
+
+    if (!video) {
+      return;
+    }
+
+
+    video.preload =
+      "auto";
+
+
+    video.playsInline =
+      true;
+
+
+    video.setAttribute(
+      "playsinline",
+      ""
+    );
+
+
+    video.setAttribute(
+      "webkit-playsinline",
+      ""
+    );
+
+
+    video.volume =
+      1;
+
+
+    video.muted =
+      false;
 
   }
 
@@ -613,9 +751,7 @@
 
 
     const video =
-      document.getElementById(
-        "p0-video"
-      );
+      obtenerVideo();
 
 
     const reanudar =
@@ -641,13 +777,9 @@
 
 
     /*
-    ------------------------------------------------------------
-    INICIAR.
-
-    IMPORTANTE:
-    El play() ocurre directamente desde
-    el clic del usuario.
-    ------------------------------------------------------------
+    ============================================================
+    BOTÓN INICIAL
+    ============================================================
     */
 
 
@@ -661,9 +793,9 @@
 
 
     /*
-    ------------------------------------------------------------
-    VIDEO TERMINADO.
-    ------------------------------------------------------------
+    ============================================================
+    FIN DEL VIDEO
+    ============================================================
     */
 
 
@@ -674,9 +806,102 @@
 
 
     /*
-    ------------------------------------------------------------
-    ERROR REAL DEL VIDEO.
-    ------------------------------------------------------------
+    ============================================================
+    VIDEO REPRODUCIENDO
+    ============================================================
+    */
+
+
+    video.addEventListener(
+      "playing",
+      () => {
+
+        limpiarFallback();
+
+
+        reanudar.classList.remove(
+          "visible"
+        );
+
+
+        precargaPermitida =
+          true;
+
+
+        evaluarPrecarga();
+
+      }
+    );
+
+
+    /*
+    ============================================================
+    BUFFER AVANZA
+    ============================================================
+    */
+
+
+    video.addEventListener(
+      "progress",
+      evaluarPrecarga
+    );
+
+
+    video.addEventListener(
+      "canplay",
+      evaluarPrecarga
+    );
+
+
+    video.addEventListener(
+      "canplaythrough",
+      evaluarPrecarga
+    );
+
+
+    /*
+    ============================================================
+    SI EL VIDEO NECESITA INTERNET
+
+    Frenamos cualquier descarga secundaria
+    para darle todo el ancho de banda al
+    video que la persona está viendo.
+    ============================================================
+    */
+
+
+    video.addEventListener(
+      "waiting",
+      () => {
+
+        precargaPermitida =
+          false;
+
+
+        abortarPrecargaSecundaria();
+
+      }
+    );
+
+
+    video.addEventListener(
+      "stalled",
+      () => {
+
+        precargaPermitida =
+          false;
+
+
+        abortarPrecargaSecundaria();
+
+      }
+    );
+
+
+    /*
+    ============================================================
+    ERROR
+    ============================================================
     */
 
 
@@ -707,54 +932,22 @@
 
 
     /*
-    ------------------------------------------------------------
-    SI EL VIDEO LOGRA EMPEZAR
-    ------------------------------------------------------------
-    */
-
-
-    video.addEventListener(
-      "playing",
-      () => {
-
-        limpiarFallback();
-
-
-        reanudar.classList.remove(
-          "visible"
-        );
-
-
-        precargarSiguienteVideo();
-
-      }
-    );
-
-
-    /*
-    ------------------------------------------------------------
-    BOTÓN DE REANUDACIÓN.
-
-    Este botón también cuenta como
-    interacción directa del usuario.
-    ------------------------------------------------------------
+    ============================================================
+    BOTÓN CONTINUAR
+    ============================================================
     */
 
 
     reanudar.addEventListener(
       "click",
-      () => {
-
-        reproducirDesdeInteraccion();
-
-      }
+      reproducirDesdeInteraccion
     );
 
 
     /*
-    ------------------------------------------------------------
-    TOCAR VIDEO = PAUSAR / CONTINUAR.
-    ------------------------------------------------------------
+    ============================================================
+    TOCAR VIDEO = PAUSA / PLAY
+    ============================================================
     */
 
 
@@ -787,9 +980,9 @@
 
 
     /*
-    ------------------------------------------------------------
-    SALIR HACIA PANTALLA 1.
-    ------------------------------------------------------------
+    ============================================================
+    IR A PANTALLA 1
+    ============================================================
     */
 
 
@@ -806,7 +999,7 @@
 
   /*
   ============================================================
-  INICIAR VIDEOS
+  INICIAR VIDEO 1
   ============================================================
   */
 
@@ -821,6 +1014,10 @@
       true;
 
 
+    indiceActual =
+      0;
+
+
     const pantalla =
       document.getElementById(
         "pantalla-0"
@@ -828,9 +1025,7 @@
 
 
     const video =
-      document.getElementById(
-        "p0-video"
-      );
+      obtenerVideo();
 
 
     const reanudar =
@@ -848,30 +1043,20 @@
     }
 
 
-    indiceActual =
-      0;
+    configurarVideo(
+      video
+    );
 
 
     actualizarIndicador();
 
 
-    video.volume =
-      1;
-
-
-    video.muted =
-      false;
-
-
     /*
     ============================================================
-    CAMBIO PRINCIPAL
+    PLAY INMEDIATO
 
-    Antes esperábamos la animación y
-    DESPUÉS pedíamos reproducir.
-
-    Ahora pedimos play() INMEDIATAMENTE
-    dentro del clic del usuario.
+    Se solicita dentro del mismo toque
+    del usuario.
     ============================================================
     */
 
@@ -886,10 +1071,8 @@
 
     } catch (error) {
 
-      console.warn(
-        "El navegador rechazó el primer play.",
-        error
-      );
+      reanudar.textContent =
+        "Continuar ▶";
 
 
       reanudar.classList.add(
@@ -900,21 +1083,14 @@
 
 
     /*
-    Después de solicitar el video,
-    hacemos aparecer visualmente
-    el teléfono.
+    La animación ocurre después de
+    haber solicitado reproducción.
     */
 
 
     pantalla.classList.add(
       "reproduciendo"
     );
-
-
-    /*
-    Si play() devuelve Promise,
-    controlamos aceptación o bloqueo.
-    */
 
 
     if (
@@ -932,7 +1108,11 @@
             );
 
 
-            precargarSiguienteVideo();
+            precargaPermitida =
+              true;
+
+
+            evaluarPrecarga();
 
           }
         )
@@ -940,7 +1120,7 @@
           error => {
 
             console.warn(
-              "Reproducción inicial bloqueada.",
+              "El navegador bloqueó temporalmente el video.",
               error
             );
 
@@ -959,12 +1139,6 @@
     }
 
 
-    /*
-    Si tras unos segundos sigue pausado,
-    mostramos el botón de respaldo.
-    */
-
-
     iniciarFallback();
 
   }
@@ -972,16 +1146,14 @@
 
   /*
   ============================================================
-  REPRODUCIR DESDE UNA INTERACCIÓN
+  PLAY DESDE INTERACCIÓN
   ============================================================
   */
 
   function reproducirDesdeInteraccion() {
 
     const video =
-      document.getElementById(
-        "p0-video"
-      );
+      obtenerVideo();
 
 
     const reanudar =
@@ -1040,18 +1212,16 @@
             );
 
 
-            precargarSiguienteVideo();
+            precargaPermitida =
+              true;
+
+
+            evaluarPrecarga();
 
           }
         )
         .catch(
-          error => {
-
-            console.warn(
-              "El navegador todavía bloquea el video.",
-              error
-            );
-
+          () => {
 
             reanudar.textContent =
               "Continuar ▶";
@@ -1074,105 +1244,223 @@
 
   /*
   ============================================================
-  FALLBACK TABLET / MÓVIL
+  BUFFER DISPONIBLE
   ============================================================
   */
 
-  function iniciarFallback() {
-
-    limpiarFallback();
-
-
-    temporizadorFallback =
-      window.setTimeout(
-        () => {
-
-          const video =
-            document.getElementById(
-              "p0-video"
-            );
-
-
-          const reanudar =
-            document.getElementById(
-              "p0-reanudar"
-            );
-
-
-          if (
-            !video ||
-            !reanudar ||
-            terminada
-          ) {
-            return;
-          }
-
-
-          /*
-          Si todavía está pausado,
-          ofrecemos un segundo toque.
-          */
-
-
-          if (
-            video.paused
-          ) {
-
-            reanudar.textContent =
-              "Continuar ▶";
-
-
-            reanudar.classList.add(
-              "visible"
-            );
-
-          }
-
-        },
-        2200
-      );
-
-  }
-
-
-  function limpiarFallback() {
+  function obtenerBufferDisponible(
+    video
+  ) {
 
     if (
-      temporizadorFallback
+      !video ||
+      !video.buffered ||
+      video.buffered.length === 0
     ) {
 
-      clearTimeout(
-        temporizadorFallback
-      );
-
-
-      temporizadorFallback =
-        null;
+      return 0;
 
     }
+
+
+    try {
+
+      const tiempoActual =
+        video.currentTime || 0;
+
+
+      for (
+        let i =
+          video.buffered.length - 1;
+
+        i >= 0;
+
+        i--
+      ) {
+
+        const inicio =
+          video.buffered.start(
+            i
+          );
+
+
+        const fin =
+          video.buffered.end(
+            i
+          );
+
+
+        if (
+          tiempoActual >=
+            inicio - .25
+          &&
+          tiempoActual <=
+            fin + .25
+        ) {
+
+          return Math.max(
+            0,
+            fin - tiempoActual
+          );
+
+        }
+
+      }
+
+
+      /*
+      Si todavía no ha comenzado,
+      tomamos el primer rango.
+      */
+
+
+      if (
+        tiempoActual <= .25
+      ) {
+
+        return video.buffered.end(
+          0
+        );
+
+      }
+
+    } catch (error) {
+
+      return 0;
+
+    }
+
+
+    return 0;
 
   }
 
 
   /*
   ============================================================
-  PRECARGAR SOLO EL SIGUIENTE VIDEO
+  SISTEMA DE PRECARGA
   ============================================================
   */
 
-  function precargarSiguienteVideo() {
+  function iniciarSistemaPrecarga() {
 
-    const siguienteIndice =
-      indiceActual + 1;
+    const video =
+      obtenerVideo();
+
+
+    if (!video) {
+      return;
+    }
+
+
+    /*
+    Mientras la persona lee la intro,
+    esperamos a que el video 1 tenga
+    contenido suficiente.
+
+    En ese momento podemos empezar a
+    preparar el video 2.
+    */
+
+
+    const vigilar =
+      window.setInterval(
+        () => {
+
+          if (
+            terminada ||
+            !document.getElementById(
+              "pantalla-0"
+            )
+          ) {
+
+            clearInterval(
+              vigilar
+            );
+
+
+            return;
+
+          }
+
+
+          evaluarPrecarga();
+
+        },
+        900
+      );
+
+  }
+
+
+  /*
+  ============================================================
+  DECIDIR SI PODEMOS PRECARGAR
+  ============================================================
+  */
+
+  function evaluarPrecarga() {
+
+    if (
+      terminada ||
+      !precargaPermitida ||
+      precargaActiva !== null
+    ) {
+      return;
+    }
+
+
+    const siguiente =
+      encontrarSiguienteVideoNoPreparado();
 
 
     if (
-      siguienteIndice >=
-      VIDEOS.length
+      siguiente === null
     ) {
+      return;
+    }
 
-      videoPrecarga =
-        null;
+
+    const video =
+      obtenerVideo();
+
+
+    if (!video) {
+      return;
+    }
+
+
+    /*
+    ============================================================
+    ANTES DE QUE EL USUARIO HAGA CLIC
+
+    Si el video 1 ya tiene suficiente buffer,
+    usamos el tiempo de lectura de la intro
+    para preparar los demás.
+    ============================================================
+    */
+
+
+    if (!iniciada) {
+
+      const buffer =
+        obtenerBufferDisponible(
+          video
+        );
+
+
+      if (
+        video.readyState >= 4
+        ||
+        buffer >=
+          BUFFER_SEGURO_SEGUNDOS
+      ) {
+
+        precargarVideoCompleto(
+          siguiente
+        );
+
+      }
 
 
       return;
@@ -1181,73 +1469,374 @@
 
 
     /*
-    Liberamos cualquier precarga anterior.
+    ============================================================
+    DURANTE REPRODUCCIÓN
+
+    Solo descargamos otro archivo si
+    el video actual ya tiene un colchón
+    suficiente de contenido.
+    ============================================================
     */
 
 
     if (
-      videoPrecarga
+      video.paused
+      ||
+      video.ended
     ) {
+      return;
+    }
 
-      try {
 
-        videoPrecarga.removeAttribute(
-          "src"
+    const buffer =
+      obtenerBufferDisponible(
+        video
+      );
+
+
+    /*
+    Si el video ya está prácticamente
+    totalmente cargado, también podemos
+    avanzar con la cola.
+    */
+
+
+    const casiCompleto =
+      Number.isFinite(
+        video.duration
+      )
+      &&
+      video.duration > 0
+      &&
+      buffer >=
+        Math.max(
+          3,
+          video.duration -
+          video.currentTime -
+          1
         );
 
 
-        videoPrecarga.load();
+    if (
+      buffer >=
+        BUFFER_SEGURO_SEGUNDOS
+      ||
+      casiCompleto
+    ) {
 
-      } catch (error) {}
+      precargarVideoCompleto(
+        siguiente
+      );
+
+    }
+
+  }
 
 
-      videoPrecarga =
-        null;
+  /*
+  ============================================================
+  BUSCAR SIGUIENTE VIDEO
+  ============================================================
+  */
+
+  function encontrarSiguienteVideoNoPreparado() {
+
+    /*
+    Nunca necesitamos volver a preparar
+    el video actual.
+    */
+
+
+    for (
+      let i =
+        indiceActual + 1;
+
+      i < VIDEOS.length;
+
+      i++
+    ) {
+
+      if (
+        !videosPreparados.has(
+          i
+        )
+      ) {
+
+        return i;
+
+      }
 
     }
 
 
-    /*
-    Solo se prepara el siguiente video,
-    no los cuatro al mismo tiempo.
-    */
+    return null;
+
+  }
 
 
-    videoPrecarga =
-      document.createElement(
-        "video"
-      );
+  /*
+  ============================================================
+  DESCARGAR VIDEO SECUNDARIO
+
+  Se descarga UNO por vez.
+  ============================================================
+  */
+
+  async function precargarVideoCompleto(
+    indice
+  ) {
+
+    if (
+      indice <= indiceActual
+      ||
+      indice >= VIDEOS.length
+      ||
+      videosPreparados.has(
+        indice
+      )
+      ||
+      precargaActiva !== null
+      ||
+      !precargaPermitida
+    ) {
+
+      return;
+
+    }
 
 
-    videoPrecarga.preload =
-      "auto";
+    precargaActiva =
+      indice;
 
 
-    videoPrecarga.muted =
-      true;
-
-
-    videoPrecarga.playsInline =
-      true;
-
-
-    videoPrecarga.setAttribute(
-      "playsinline",
-      ""
-    );
-
-
-    videoPrecarga.src =
-      VIDEOS[
-        siguienteIndice
-      ];
+    controladorPrecarga =
+      new AbortController();
 
 
     try {
 
-      videoPrecarga.load();
+      const respuesta =
+        await fetch(
+          VIDEOS[indice],
+          {
 
-    } catch (error) {}
+            method:
+              "GET",
+
+            cache:
+              "force-cache",
+
+            signal:
+              controladorPrecarga.signal
+
+          }
+        );
+
+
+      if (
+        !respuesta.ok
+      ) {
+
+        throw new Error(
+          `HTTP ${
+            respuesta.status
+          }`
+        );
+
+      }
+
+
+      const blob =
+        await respuesta.blob();
+
+
+      /*
+      Comprobamos que el video siga siendo
+      futuro. Puede ocurrir que mientras
+      descargaba ya hayamos avanzado.
+      */
+
+
+      if (
+        indice >
+        indiceActual
+      ) {
+
+        const urlBlob =
+          URL.createObjectURL(
+            blob
+          );
+
+
+        videosPreparados.set(
+          indice,
+          urlBlob
+        );
+
+      }
+
+
+    } catch (error) {
+
+      /*
+      Si lo abortamos porque el video actual
+      necesitaba internet, NO es un error.
+      */
+
+
+      if (
+        error &&
+        error.name !==
+          "AbortError"
+      ) {
+
+        console.warn(
+          `No se pudo precargar video ${
+            indice + 1
+          }.`,
+          error
+        );
+
+      }
+
+    } finally {
+
+      precargaActiva =
+        null;
+
+
+      controladorPrecarga =
+        null;
+
+
+      /*
+      Si seguimos teniendo ancho de banda,
+      evaluamos el siguiente.
+
+      La descarga sigue siendo secuencial:
+      nunca dos videos simultáneos.
+      */
+
+
+      window.setTimeout(
+        evaluarPrecarga,
+        450
+      );
+
+    }
+
+  }
+
+
+  /*
+  ============================================================
+  ABORTAR PRECARGA SECUNDARIA
+  ============================================================
+  */
+
+  function abortarPrecargaSecundaria() {
+
+    if (
+      controladorPrecarga
+    ) {
+
+      try {
+
+        controladorPrecarga.abort();
+
+      } catch (error) {}
+
+    }
+
+
+    controladorPrecarga =
+      null;
+
+
+    precargaActiva =
+      null;
+
+  }
+
+
+  /*
+  ============================================================
+  OBTENER FUENTE DEL VIDEO
+  ============================================================
+  */
+
+  function obtenerFuenteVideo(
+    indice
+  ) {
+
+    if (
+      videosPreparados.has(
+        indice
+      )
+    ) {
+
+      return videosPreparados.get(
+        indice
+      );
+
+    }
+
+
+    return VIDEOS[indice];
+
+  }
+
+
+  /*
+  ============================================================
+  LIBERAR VIDEO YA UTILIZADO
+  ============================================================
+  */
+
+  function liberarVideoPreparado(
+    indice
+  ) {
+
+    if (
+      !videosPreparados.has(
+        indice
+      )
+    ) {
+      return;
+    }
+
+
+    const url =
+      videosPreparados.get(
+        indice
+      );
+
+
+    /*
+    Dejamos un pequeño margen antes
+    de liberar el Blob.
+    */
+
+
+    window.setTimeout(
+      () => {
+
+        try {
+
+          URL.revokeObjectURL(
+            url
+          );
+
+        } catch (error) {}
+
+
+        videosPreparados.delete(
+          indice
+        );
+
+      },
+      1200
+    );
 
   }
 
@@ -1269,9 +1858,9 @@
 
 
     /*
-    ------------------------------------------------------------
-    VIDEO 4.
-    ------------------------------------------------------------
+    ============================================================
+    VIDEO 4
+    ============================================================
     */
 
 
@@ -1291,6 +1880,13 @@
       true;
 
 
+    precargaPermitida =
+      false;
+
+
+    abortarPrecargaSecundaria();
+
+
     const pantalla =
       document.getElementById(
         "pantalla-0"
@@ -1298,9 +1894,7 @@
 
 
     const video =
-      document.getElementById(
-        "p0-video"
-      );
+      obtenerVideo();
 
 
     const reanudar =
@@ -1324,22 +1918,19 @@
     }
 
 
+    /*
+    Guardamos cuál acabamos
+    de terminar.
+    */
+
+
+    const indiceAnterior =
+      indiceActual;
+
+
     pantalla.classList.add(
       "cambiando-video"
     );
-
-
-    /*
-    ============================================================
-    CAMBIO IMPORTANTE
-
-    No esperamos varios cientos de ms
-    antes de solicitar el siguiente video.
-
-    Cambiamos la fuente y pedimos play()
-    enseguida.
-    ============================================================
-    */
 
 
     indiceActual++;
@@ -1348,17 +1939,38 @@
     actualizarIndicador();
 
 
-    video.src =
-      VIDEOS[
+    /*
+    ============================================================
+    SI EL VIDEO YA FUE DESCARGADO
+
+    usamos su Blob local.
+
+    Si todavía no estaba listo,
+    utilizamos la URL normal.
+    ============================================================
+    */
+
+
+    const fuente =
+      obtenerFuenteVideo(
         indiceActual
-      ];
+      );
 
 
-    video.preload =
-      "auto";
+    video.src =
+      fuente;
 
 
-    video.load();
+    configurarVideo(
+      video
+    );
+
+
+    try {
+
+      video.load();
+
+    } catch (error) {}
 
 
     let promesa;
@@ -1397,7 +2009,11 @@
             );
 
 
-            precargarSiguienteVideo();
+            precargaPermitida =
+              true;
+
+
+            evaluarPrecarga();
 
           }
         )
@@ -1405,7 +2021,7 @@
           error => {
 
             console.warn(
-              `No se pudo iniciar el video ${
+              `No se pudo iniciar video ${
                 indiceActual + 1
               }.`,
               error
@@ -1427,9 +2043,19 @@
 
 
     /*
-    Dejamos la transición visual,
-    pero ya no bloquea el inicio
-    del siguiente video.
+    El video anterior ya no
+    se necesita.
+    */
+
+
+    liberarVideoPreparado(
+      indiceAnterior
+    );
+
+
+    /*
+    Dejamos la misma transición visual
+    que ya teníamos.
     */
 
 
@@ -1444,12 +2070,94 @@
         cambiando =
           false;
 
+
+        precargaPermitida =
+          true;
+
+
+        evaluarPrecarga();
+
       },
       550
     );
 
 
     iniciarFallback();
+
+  }
+
+
+  /*
+  ============================================================
+  FALLBACK DEL NAVEGADOR
+  ============================================================
+  */
+
+  function iniciarFallback() {
+
+    limpiarFallback();
+
+
+    temporizadorFallback =
+      window.setTimeout(
+        () => {
+
+          const video =
+            obtenerVideo();
+
+
+          const reanudar =
+            document.getElementById(
+              "p0-reanudar"
+            );
+
+
+          if (
+            !video ||
+            !reanudar ||
+            terminada
+          ) {
+            return;
+          }
+
+
+          if (
+            video.paused &&
+            !video.ended
+          ) {
+
+            reanudar.textContent =
+              "Continuar ▶";
+
+
+            reanudar.classList.add(
+              "visible"
+            );
+
+          }
+
+        },
+        2500
+      );
+
+  }
+
+
+  function limpiarFallback() {
+
+    if (
+      temporizadorFallback
+    ) {
+
+      clearTimeout(
+        temporizadorFallback
+      );
+
+
+      temporizadorFallback =
+        null;
+
+    }
 
   }
 
@@ -1514,7 +2222,7 @@
 
   /*
   ============================================================
-  TERMINÓ VIDEO 4
+  VIDEO 4 TERMINADO
   ============================================================
   */
 
@@ -1531,6 +2239,13 @@
       true;
 
 
+    precargaPermitida =
+      false;
+
+
+    abortarPrecargaSecundaria();
+
+
     limpiarFallback();
 
 
@@ -1541,9 +2256,7 @@
 
 
     const video =
-      document.getElementById(
-        "p0-video"
-      );
+      obtenerVideo();
 
 
     const reanudar =
@@ -1552,9 +2265,7 @@
       );
 
 
-    if (
-      !pantalla
-    ) {
+    if (!pantalla) {
       return;
     }
 
@@ -1584,7 +2295,8 @@
 
 
     /*
-    Dejamos respirar el último frame.
+    Conservamos exactamente el mismo
+    comportamiento final.
     */
 
 
@@ -1604,6 +2316,37 @@
 
   /*
   ============================================================
+  LIMPIAR VIDEOS PRECARGADOS
+  ============================================================
+  */
+
+  function liberarTodosLosVideos() {
+
+    abortarPrecargaSecundaria();
+
+
+    videosPreparados.forEach(
+      url => {
+
+        try {
+
+          URL.revokeObjectURL(
+            url
+          );
+
+        } catch (error) {}
+
+      }
+    );
+
+
+    videosPreparados.clear();
+
+  }
+
+
+  /*
+  ============================================================
   PANTALLA 0 → PANTALLA 1
   ============================================================
   */
@@ -1617,9 +2360,7 @@
 
 
     const video =
-      document.getElementById(
-        "p0-video"
-      );
+      obtenerVideo();
 
 
     if (
@@ -1632,26 +2373,8 @@
     limpiarFallback();
 
 
-    if (
-      videoPrecarga
-    ) {
-
-      try {
-
-        videoPrecarga.removeAttribute(
-          "src"
-        );
-
-
-        videoPrecarga.load();
-
-      } catch (error) {}
-
-
-      videoPrecarga =
-        null;
-
-    }
+    precargaPermitida =
+      false;
 
 
     if (
@@ -1684,6 +2407,9 @@
     );
 
 
+    liberarTodosLosVideos();
+
+
     pantalla.remove();
 
 
@@ -1706,7 +2432,7 @@
     return new Promise(
       resolve => {
 
-        setTimeout(
+        window.setTimeout(
           resolve,
           milisegundos
         );
