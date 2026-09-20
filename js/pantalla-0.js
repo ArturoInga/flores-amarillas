@@ -5,6 +5,8 @@
   /*
   ============================================================
   PANTALLA 0
+  4 VIDEOS VERTICALES
+  OPTIMIZADA PARA TABLET / MÓVIL
   ============================================================
   */
 
@@ -24,6 +26,10 @@
   let cambiando = false;
 
   let terminada = false;
+
+  let videoPrecarga = null;
+
+  let temporizadorFallback = null;
 
 
   /*
@@ -179,7 +185,8 @@
                 class="p0-video"
                 id="p0-video"
                 playsinline
-                preload="metadata"
+                webkit-playsinline
+                preload="auto"
               ></video>
 
 
@@ -218,8 +225,6 @@
           id="p0-cierre"
         >
 
-          <!-- Flecha completa, sin cortes -->
-
           <svg
             class="p0-flecha-final"
             viewBox="0 0 90 30"
@@ -249,8 +254,6 @@
               type="button"
               aria-label="Toca aquí para continuar"
             >
-
-              <!-- GIRASOL -->
 
               <svg
                 class="p0-boton-girasol"
@@ -335,8 +338,6 @@
                   transform="translate(70 70)"
                 >
 
-                  <!-- pétalos traseros -->
-
                   ${Array.from(
                     { length: 18 },
                     (_, i) => `
@@ -353,8 +354,6 @@
                     `
                   ).join("")}
 
-
-                  <!-- pétalos delanteros -->
 
                   ${Array.from(
                     { length: 18 },
@@ -387,30 +386,36 @@
                   ></circle>
 
 
-                  <!-- semillas -->
-
                   ${Array.from(
                     { length: 44 },
                     (_, i) => {
 
-                      const a =
+                      const angulo =
                         i * 137.507764;
 
 
-                      const r =
-                        Math.sqrt(i / 44) * 20;
+                      const radio =
+                        Math.sqrt(
+                          i / 44
+                        ) * 20;
 
 
-                      const rad =
-                        a * Math.PI / 180;
+                      const radianes =
+                        angulo *
+                        Math.PI /
+                        180;
 
 
                       const x =
-                        Math.cos(rad) * r;
+                        Math.cos(
+                          radianes
+                        ) * radio;
 
 
                       const y =
-                        Math.sin(rad) * r;
+                        Math.sin(
+                          radianes
+                        ) * radio;
 
 
                       return `
@@ -492,6 +497,71 @@
       "hidden";
 
 
+    /*
+    ============================================================
+    PREPARAR VIDEO 1 DESDE EL INICIO
+    ============================================================
+    Esto ocurre mientras la persona todavía
+    está leyendo la introducción.
+    */
+
+
+    const video =
+      document.getElementById(
+        "p0-video"
+      );
+
+
+    if (video) {
+
+      video.preload =
+        "auto";
+
+
+      video.playsInline =
+        true;
+
+
+      video.setAttribute(
+        "playsinline",
+        ""
+      );
+
+
+      video.setAttribute(
+        "webkit-playsinline",
+        ""
+      );
+
+
+      video.src =
+        VIDEOS[0];
+
+
+      /*
+      Dejamos que el navegador empiece
+      a preparar el archivo.
+
+      No reproducimos todavía.
+      */
+
+
+      try {
+
+        video.load();
+
+      } catch (error) {
+
+        console.warn(
+          "No se pudo preparar el primer video.",
+          error
+        );
+
+      }
+
+    }
+
+
     requestAnimationFrame(
       () => {
 
@@ -570,6 +640,17 @@
     }
 
 
+    /*
+    ------------------------------------------------------------
+    INICIAR.
+
+    IMPORTANTE:
+    El play() ocurre directamente desde
+    el clic del usuario.
+    ------------------------------------------------------------
+    */
+
+
     empezar.addEventListener(
       "click",
       iniciarVideos,
@@ -579,51 +660,102 @@
     );
 
 
+    /*
+    ------------------------------------------------------------
+    VIDEO TERMINADO.
+    ------------------------------------------------------------
+    */
+
+
     video.addEventListener(
       "ended",
       manejarFinVideo
     );
 
 
+    /*
+    ------------------------------------------------------------
+    ERROR REAL DEL VIDEO.
+    ------------------------------------------------------------
+    */
+
+
     video.addEventListener(
       "error",
       () => {
 
+        limpiarFallback();
+
+
         reanudar.textContent =
-          "No pude cargar este video";
+          "Continuar ▶";
 
 
         reanudar.classList.add(
           "visible"
         );
 
+
+        console.warn(
+          "Error reproduciendo:",
+          VIDEOS[indiceActual],
+          video.error
+        );
+
       }
     );
 
 
-    reanudar.addEventListener(
-      "click",
-      async () => {
+    /*
+    ------------------------------------------------------------
+    SI EL VIDEO LOGRA EMPEZAR
+    ------------------------------------------------------------
+    */
+
+
+    video.addEventListener(
+      "playing",
+      () => {
+
+        limpiarFallback();
+
 
         reanudar.classList.remove(
           "visible"
         );
 
 
-        try {
-
-          await video.play();
-
-        } catch (error) {
-
-          reanudar.classList.add(
-            "visible"
-          );
-
-        }
+        precargarSiguienteVideo();
 
       }
     );
+
+
+    /*
+    ------------------------------------------------------------
+    BOTÓN DE REANUDACIÓN.
+
+    Este botón también cuenta como
+    interacción directa del usuario.
+    ------------------------------------------------------------
+    */
+
+
+    reanudar.addEventListener(
+      "click",
+      () => {
+
+        reproducirDesdeInteraccion();
+
+      }
+    );
+
+
+    /*
+    ------------------------------------------------------------
+    TOCAR VIDEO = PAUSAR / CONTINUAR.
+    ------------------------------------------------------------
+    */
 
 
     video.addEventListener(
@@ -642,17 +774,7 @@
           video.paused
         ) {
 
-          video
-            .play()
-            .catch(
-              () => {
-
-                reanudar.classList.add(
-                  "visible"
-                );
-
-              }
-            );
+          reproducirDesdeInteraccion();
 
         } else {
 
@@ -662,6 +784,13 @@
 
       }
     );
+
+
+    /*
+    ------------------------------------------------------------
+    SALIR HACIA PANTALLA 1.
+    ------------------------------------------------------------
+    */
 
 
     finalizar.addEventListener(
@@ -677,18 +806,19 @@
 
   /*
   ============================================================
-  COMENZAR VIDEOS
+  INICIAR VIDEOS
   ============================================================
   */
 
-  async function iniciarVideos() {
+  function iniciarVideos() {
 
     if (iniciada) {
       return;
     }
 
 
-    iniciada = true;
+    iniciada =
+      true;
 
 
     const pantalla =
@@ -703,12 +833,77 @@
       );
 
 
+    const reanudar =
+      document.getElementById(
+        "p0-reanudar"
+      );
+
+
     if (
       !pantalla ||
-      !video
+      !video ||
+      !reanudar
     ) {
       return;
     }
+
+
+    indiceActual =
+      0;
+
+
+    actualizarIndicador();
+
+
+    video.volume =
+      1;
+
+
+    video.muted =
+      false;
+
+
+    /*
+    ============================================================
+    CAMBIO PRINCIPAL
+
+    Antes esperábamos la animación y
+    DESPUÉS pedíamos reproducir.
+
+    Ahora pedimos play() INMEDIATAMENTE
+    dentro del clic del usuario.
+    ============================================================
+    */
+
+
+    let promesaPlay;
+
+
+    try {
+
+      promesaPlay =
+        video.play();
+
+    } catch (error) {
+
+      console.warn(
+        "El navegador rechazó el primer play.",
+        error
+      );
+
+
+      reanudar.classList.add(
+        "visible"
+      );
+
+    }
+
+
+    /*
+    Después de solicitar el video,
+    hacemos aparecer visualmente
+    el teléfono.
+    */
 
 
     pantalla.classList.add(
@@ -716,42 +911,72 @@
     );
 
 
-    indiceActual = 0;
+    /*
+    Si play() devuelve Promise,
+    controlamos aceptación o bloqueo.
+    */
 
 
-    actualizarIndicador();
+    if (
+      promesaPlay &&
+      typeof promesaPlay.then ===
+        "function"
+    ) {
+
+      promesaPlay
+        .then(
+          () => {
+
+            reanudar.classList.remove(
+              "visible"
+            );
 
 
-    video.src =
-      VIDEOS[
-        indiceActual
-      ];
+            precargarSiguienteVideo();
+
+          }
+        )
+        .catch(
+          error => {
+
+            console.warn(
+              "Reproducción inicial bloqueada.",
+              error
+            );
 
 
-    video.volume = 1;
-
-    video.muted = false;
-
-    video.load();
+            reanudar.textContent =
+              "Continuar ▶";
 
 
-    await esperar(
-      650
-    );
+            reanudar.classList.add(
+              "visible"
+            );
+
+          }
+        );
+
+    }
 
 
-    intentarReproducir();
+    /*
+    Si tras unos segundos sigue pausado,
+    mostramos el botón de respaldo.
+    */
+
+
+    iniciarFallback();
 
   }
 
 
   /*
   ============================================================
-  PLAY
+  REPRODUCIR DESDE UNA INTERACCIÓN
   ============================================================
   */
 
-  async function intentarReproducir() {
+  function reproducirDesdeInteraccion() {
 
     const video =
       document.getElementById(
@@ -773,14 +998,16 @@
     }
 
 
+    limpiarFallback();
+
+
+    let promesa;
+
+
     try {
 
-      await video.play();
-
-
-      reanudar.classList.remove(
-        "visible"
-      );
+      promesa =
+        video.play();
 
     } catch (error) {
 
@@ -792,6 +1019,136 @@
         "visible"
       );
 
+
+      return;
+
+    }
+
+
+    if (
+      promesa &&
+      typeof promesa.then ===
+        "function"
+    ) {
+
+      promesa
+        .then(
+          () => {
+
+            reanudar.classList.remove(
+              "visible"
+            );
+
+
+            precargarSiguienteVideo();
+
+          }
+        )
+        .catch(
+          error => {
+
+            console.warn(
+              "El navegador todavía bloquea el video.",
+              error
+            );
+
+
+            reanudar.textContent =
+              "Continuar ▶";
+
+
+            reanudar.classList.add(
+              "visible"
+            );
+
+          }
+        );
+
+    }
+
+
+    iniciarFallback();
+
+  }
+
+
+  /*
+  ============================================================
+  FALLBACK TABLET / MÓVIL
+  ============================================================
+  */
+
+  function iniciarFallback() {
+
+    limpiarFallback();
+
+
+    temporizadorFallback =
+      window.setTimeout(
+        () => {
+
+          const video =
+            document.getElementById(
+              "p0-video"
+            );
+
+
+          const reanudar =
+            document.getElementById(
+              "p0-reanudar"
+            );
+
+
+          if (
+            !video ||
+            !reanudar ||
+            terminada
+          ) {
+            return;
+          }
+
+
+          /*
+          Si todavía está pausado,
+          ofrecemos un segundo toque.
+          */
+
+
+          if (
+            video.paused
+          ) {
+
+            reanudar.textContent =
+              "Continuar ▶";
+
+
+            reanudar.classList.add(
+              "visible"
+            );
+
+          }
+
+        },
+        2200
+      );
+
+  }
+
+
+  function limpiarFallback() {
+
+    if (
+      temporizadorFallback
+    ) {
+
+      clearTimeout(
+        temporizadorFallback
+      );
+
+
+      temporizadorFallback =
+        null;
+
     }
 
   }
@@ -799,11 +1156,109 @@
 
   /*
   ============================================================
-  FIN DE VIDEO
+  PRECARGAR SOLO EL SIGUIENTE VIDEO
   ============================================================
   */
 
-  async function manejarFinVideo() {
+  function precargarSiguienteVideo() {
+
+    const siguienteIndice =
+      indiceActual + 1;
+
+
+    if (
+      siguienteIndice >=
+      VIDEOS.length
+    ) {
+
+      videoPrecarga =
+        null;
+
+
+      return;
+
+    }
+
+
+    /*
+    Liberamos cualquier precarga anterior.
+    */
+
+
+    if (
+      videoPrecarga
+    ) {
+
+      try {
+
+        videoPrecarga.removeAttribute(
+          "src"
+        );
+
+
+        videoPrecarga.load();
+
+      } catch (error) {}
+
+
+      videoPrecarga =
+        null;
+
+    }
+
+
+    /*
+    Solo se prepara el siguiente video,
+    no los cuatro al mismo tiempo.
+    */
+
+
+    videoPrecarga =
+      document.createElement(
+        "video"
+      );
+
+
+    videoPrecarga.preload =
+      "auto";
+
+
+    videoPrecarga.muted =
+      true;
+
+
+    videoPrecarga.playsInline =
+      true;
+
+
+    videoPrecarga.setAttribute(
+      "playsinline",
+      ""
+    );
+
+
+    videoPrecarga.src =
+      VIDEOS[
+        siguienteIndice
+      ];
+
+
+    try {
+
+      videoPrecarga.load();
+
+    } catch (error) {}
+
+  }
+
+
+  /*
+  ============================================================
+  FIN DE CADA VIDEO
+  ============================================================
+  */
+
+  function manejarFinVideo() {
 
     if (
       terminada ||
@@ -814,8 +1269,11 @@
 
 
     /*
-    Último video.
+    ------------------------------------------------------------
+    VIDEO 4.
+    ------------------------------------------------------------
     */
+
 
     if (
       indiceActual ===
@@ -829,7 +1287,8 @@
     }
 
 
-    cambiando = true;
+    cambiando =
+      true;
 
 
     const pantalla =
@@ -844,11 +1303,24 @@
       );
 
 
+    const reanudar =
+      document.getElementById(
+        "p0-reanudar"
+      );
+
+
     if (
       !pantalla ||
-      !video
+      !video ||
+      !reanudar
     ) {
+
+      cambiando =
+        false;
+
+
       return;
+
     }
 
 
@@ -857,9 +1329,17 @@
     );
 
 
-    await esperar(
-      700
-    );
+    /*
+    ============================================================
+    CAMBIO IMPORTANTE
+
+    No esperamos varios cientos de ms
+    antes de solicitar el siguiente video.
+
+    Cambiamos la fuente y pedimos play()
+    enseguida.
+    ============================================================
+    */
 
 
     indiceActual++;
@@ -874,53 +1354,102 @@
       ];
 
 
+    video.preload =
+      "auto";
+
+
     video.load();
+
+
+    let promesa;
 
 
     try {
 
-      await video.play();
+      promesa =
+        video.play();
 
     } catch (error) {
 
-      const reanudar =
-        document.getElementById(
-          "p0-reanudar"
-        );
+      reanudar.textContent =
+        "Continuar ▶";
 
 
-      if (reanudar) {
-
-        reanudar.textContent =
-          "Continuar ▶";
-
-
-        reanudar.classList.add(
-          "visible"
-        );
-
-      }
+      reanudar.classList.add(
+        "visible"
+      );
 
     }
 
 
-    requestAnimationFrame(
+    if (
+      promesa &&
+      typeof promesa.then ===
+        "function"
+    ) {
+
+      promesa
+        .then(
+          () => {
+
+            reanudar.classList.remove(
+              "visible"
+            );
+
+
+            precargarSiguienteVideo();
+
+          }
+        )
+        .catch(
+          error => {
+
+            console.warn(
+              `No se pudo iniciar el video ${
+                indiceActual + 1
+              }.`,
+              error
+            );
+
+
+            reanudar.textContent =
+              "Continuar ▶";
+
+
+            reanudar.classList.add(
+              "visible"
+            );
+
+          }
+        );
+
+    }
+
+
+    /*
+    Dejamos la transición visual,
+    pero ya no bloquea el inicio
+    del siguiente video.
+    */
+
+
+    window.setTimeout(
       () => {
 
         pantalla.classList.remove(
           "cambiando-video"
         );
 
-      }
+
+        cambiando =
+          false;
+
+      },
+      550
     );
 
 
-    await esperar(
-      350
-    );
-
-
-    cambiando = false;
+    iniciarFallback();
 
   }
 
@@ -945,7 +1474,9 @@
       );
 
 
-    if (numero) {
+    if (
+      numero
+    ) {
 
       numero.textContent =
         `${String(
@@ -983,18 +1514,24 @@
 
   /*
   ============================================================
-  VIDEO 4 TERMINADO
+  TERMINÓ VIDEO 4
   ============================================================
   */
 
   function mostrarCierre() {
 
-    if (terminada) {
+    if (
+      terminada
+    ) {
       return;
     }
 
 
-    terminada = true;
+    terminada =
+      true;
+
+
+    limpiarFallback();
 
 
     const pantalla =
@@ -1009,19 +1546,49 @@
       );
 
 
-    if (!pantalla) {
+    const reanudar =
+      document.getElementById(
+        "p0-reanudar"
+      );
+
+
+    if (
+      !pantalla
+    ) {
       return;
     }
 
 
-    if (video) {
+    if (
+      reanudar
+    ) {
 
-      video.pause();
+      reanudar.classList.remove(
+        "visible"
+      );
 
     }
 
 
-    setTimeout(
+    if (
+      video
+    ) {
+
+      try {
+
+        video.pause();
+
+      } catch (error) {}
+
+    }
+
+
+    /*
+    Dejamos respirar el último frame.
+    */
+
+
+    window.setTimeout(
       () => {
 
         pantalla.classList.add(
@@ -1055,12 +1622,41 @@
       );
 
 
-    if (!pantalla) {
+    if (
+      !pantalla
+    ) {
       return;
     }
 
 
-    if (video) {
+    limpiarFallback();
+
+
+    if (
+      videoPrecarga
+    ) {
+
+      try {
+
+        videoPrecarga.removeAttribute(
+          "src"
+        );
+
+
+        videoPrecarga.load();
+
+      } catch (error) {}
+
+
+      videoPrecarga =
+        null;
+
+    }
+
+
+    if (
+      video
+    ) {
 
       try {
 
@@ -1103,14 +1699,16 @@
   ============================================================
   */
 
-  function esperar(ms) {
+  function esperar(
+    milisegundos
+  ) {
 
     return new Promise(
       resolve => {
 
         setTimeout(
           resolve,
-          ms
+          milisegundos
         );
 
       }
@@ -1118,6 +1716,12 @@
 
   }
 
+
+  /*
+  ============================================================
+  INICIO
+  ============================================================
+  */
 
   crearPantalla();
 
