@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="esperando-pantalla-0">
+<html lang="es">
 
 <head>
 
@@ -65,78 +65,6 @@
     rel="stylesheet"
     href="./css/pantalla-3.css"
   >
-
-
-  <!-- =================================================
-       BLOQUEO INICIAL
-       Evita que Pantalla 1 aparezca por un instante
-       antes de que Pantalla 0 termine de cargarse.
-       ================================================= -->
-
-  <style>
-
-    html.esperando-pantalla-0,
-    html.esperando-pantalla-0 body {
-      background: #0b0910;
-    }
-
-    html.esperando-pantalla-0 body {
-      overflow: hidden;
-    }
-
-    html.esperando-pantalla-0 #recorrido {
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-    }
-
-  </style>
-
-
-  <script>
-
-    (() => {
-      "use strict";
-
-      function revelarRecorridoCuandoPantalla0Termine() {
-
-        const comprobar = () => {
-
-          const pantalla0 =
-            document.getElementById(
-              "pantalla-0"
-            );
-
-          if (pantalla0) {
-
-            requestAnimationFrame(
-              comprobar
-            );
-
-            return;
-          }
-
-          document.documentElement.classList.remove(
-            "esperando-pantalla-0"
-          );
-
-        };
-
-        comprobar();
-
-      }
-
-      document.addEventListener(
-        "p0:completada",
-        revelarRecorridoCuandoPantalla0Termine,
-        {
-          once: true
-        }
-      );
-
-    })();
-
-  </script>
 
 
   <!-- JAVASCRIPT -->
@@ -697,11 +625,6 @@
 
           <defs>
 
-
-            <!-- =================================================
-                 PIEDRA
-                 ================================================= -->
-
             <linearGradient
               id="p2-piedra"
               x1="0"
@@ -709,27 +632,10 @@
               x2="1"
               y2="1"
             >
-
-              <stop
-                offset="0%"
-                stop-color="#fffdfb"
-              ></stop>
-
-              <stop
-                offset="35%"
-                stop-color="#f2f0ef"
-              ></stop>
-
-              <stop
-                offset="70%"
-                stop-color="#e2e3e8"
-              ></stop>
-
-              <stop
-                offset="100%"
-                stop-color="#c9ced9"
-              ></stop>
-
+              <stop offset="0%" stop-color="#fffdfb"></stop>
+              <stop offset="35%" stop-color="#f2f0ef"></stop>
+              <stop offset="70%" stop-color="#e2e3e8"></stop>
+              <stop offset="100%" stop-color="#c9ced9"></stop>
             </linearGradient>
 
 
@@ -740,29 +646,11 @@
               x2="0"
               y2="1"
             >
-
-              <stop
-                offset="0%"
-                stop-color="#eef0f5"
-              ></stop>
-
-              <stop
-                offset="55%"
-                stop-color="#d7dbe3"
-              ></stop>
-
-              <stop
-                offset="100%"
-                stop-color="#b8c0cf"
-              ></stop>
-
+              <stop offset="0%" stop-color="#eef0f5"></stop>
+              <stop offset="55%" stop-color="#d7dbe3"></stop>
+              <stop offset="100%" stop-color="#b8c0cf"></stop>
             </linearGradient>
 
-
-
-            <!-- =================================================
-                 TECHOS
-                 ================================================= -->
 
             <linearGradient
               id="p2-techo-azul"
@@ -771,22 +659,9 @@
               x2="1"
               y2="1"
             >
-
-              <stop
-                offset="0%"
-                stop-color="#8aa8cf"
-              ></stop>
-
-              <stop
-                offset="45%"
-                stop-color="#55739d"
-              ></stop>
-
-              <stop
-                offset="100%"
-                stop-color="#2d456c"
-              ></stop>
-
+              <stop offset="0%" stop-color="#8aa8cf"></stop>
+              <stop offset="45%" stop-color="#55739d"></stop>
+              <stop offset="100%" stop-color="#2d456c"></stop>
             </linearGradient>
 
 
@@ -797,24 +672,10 @@
               x2="0"
               y2="1"
             >
-
-              <stop
-                offset="0%"
-                stop-color="#667fa7"
-              ></stop>
-
-              <stop
-                offset="100%"
-                stop-color="#31476c"
-              ></stop>
-
+              <stop offset="0%" stop-color="#667fa7"></stop>
+              <stop offset="100%" stop-color="#31476c"></stop>
             </linearGradient>
 
-
-
-            <!-- =================================================
-                 PUERTA
-                 ================================================= -->
 
             <linearGradient
               id="p2-puerta"
@@ -823,29 +684,11 @@
               x2="0"
               y2="1"
             >
-
-              <stop
-                offset="0%"
-                stop-color="#956b4f"
-              ></stop>
-
-              <stop
-                offset="55%"
-                stop-color="#654636"
-              ></stop>
-
-              <stop
-                offset="100%"
-                stop-color="#3d2a24"
-              ></stop>
-
+              <stop offset="0%" stop-color="#956b4f"></stop>
+              <stop offset="55%" stop-color="#654636"></stop>
+              <stop offset="100%" stop-color="#3d2a24"></stop>
             </linearGradient>
 
-
-
-            <!-- =================================================
-                 VENTANAS
-                 ================================================= -->
 
             <radialGradient
               id="p2-ventana"
@@ -853,29 +696,11 @@
               cy="43%"
               r="65%"
             >
-
-              <stop
-                offset="0%"
-                stop-color="#fffce2"
-              ></stop>
-
-              <stop
-                offset="42%"
-                stop-color="#ffdda0"
-              ></stop>
-
-              <stop
-                offset="100%"
-                stop-color="#d29b49"
-              ></stop>
-
+              <stop offset="0%" stop-color="#fffce2"></stop>
+              <stop offset="42%" stop-color="#ffdda0"></stop>
+              <stop offset="100%" stop-color="#d29b49"></stop>
             </radialGradient>
 
-
-
-            <!-- =================================================
-                 BANDERA
-                 ================================================= -->
 
             <linearGradient
               id="p2-bandera-rosa"
@@ -884,24 +709,10 @@
               x2="1"
               y2="1"
             >
-
-              <stop
-                offset="0%"
-                stop-color="#fff5f0"
-              ></stop>
-
-              <stop
-                offset="100%"
-                stop-color="#f1cbd7"
-              ></stop>
-
+              <stop offset="0%" stop-color="#fff5f0"></stop>
+              <stop offset="100%" stop-color="#f1cbd7"></stop>
             </linearGradient>
 
-
-
-            <!-- =================================================
-                 DORADO
-                 ================================================= -->
 
             <linearGradient
               id="p2-dorado"
@@ -910,29 +721,11 @@
               x2="1"
               y2="1"
             >
-
-              <stop
-                offset="0%"
-                stop-color="#ffe6a1"
-              ></stop>
-
-              <stop
-                offset="52%"
-                stop-color="#d3a653"
-              ></stop>
-
-              <stop
-                offset="100%"
-                stop-color="#89662d"
-              ></stop>
-
+              <stop offset="0%" stop-color="#ffe6a1"></stop>
+              <stop offset="52%" stop-color="#d3a653"></stop>
+              <stop offset="100%" stop-color="#89662d"></stop>
             </linearGradient>
 
-
-
-            <!-- =================================================
-                 FILTRO DE PIEDRA
-                 ================================================= -->
 
             <filter
               id="p2-textura-piedra"
@@ -941,7 +734,6 @@
               width="130%"
               height="130%"
             >
-
               <feTurbulence
                 type="fractalNoise"
                 baseFrequency=".035"
@@ -950,7 +742,6 @@
                 result="ruido"
               ></feTurbulence>
 
-
               <feColorMatrix
                 in="ruido"
                 type="saturate"
@@ -958,20 +749,13 @@
                 result="ruido-gris"
               ></feColorMatrix>
 
-
               <feBlend
                 in="SourceGraphic"
                 in2="ruido-gris"
                 mode="soft-light"
               ></feBlend>
-
             </filter>
 
-
-
-            <!-- =================================================
-                 SOMBRA SUAVE
-                 ================================================= -->
 
             <filter
               id="p2-sombra-suave"
@@ -980,7 +764,6 @@
               width="160%"
               height="160%"
             >
-
               <feDropShadow
                 dx="0"
                 dy="10"
@@ -988,17 +771,10 @@
                 flood-color="#384052"
                 flood-opacity=".18"
               ></feDropShadow>
-
             </filter>
-
 
           </defs>
 
-
-
-          <!-- =================================================
-               SOMBRA
-               ================================================= -->
 
           <ellipse
             cx="490"
@@ -1009,11 +785,6 @@
             opacity=".15"
           ></ellipse>
 
-
-
-          <!-- =================================================
-               PLATAFORMA
-               ================================================= -->
 
           <path
             d="
@@ -1030,15 +801,7 @@
           ></path>
 
 
-
-          <!-- =================================================
-               ALAS TRASERAS
-               ================================================= -->
-
-          <g
-            filter="url(#p2-textura-piedra)"
-          >
-
+          <g filter="url(#p2-textura-piedra)">
             <rect
               x="221"
               y="354"
@@ -1047,20 +810,10 @@
               rx="15"
               fill="url(#p2-piedra-sombra)"
             ></rect>
-
           </g>
 
 
-
-          <!-- =================================================
-               TORRES EXTERIORES
-               ================================================= -->
-
-          <g
-            filter="url(#p2-sombra-suave)"
-          >
-
-            <!-- IZQUIERDA -->
+          <g filter="url(#p2-sombra-suave)">
 
             <rect
               x="101"
@@ -1072,7 +825,6 @@
               stroke="#bcc2cc"
               stroke-width="3"
             ></rect>
-
 
             <path
               d="
@@ -1087,8 +839,6 @@
             ></path>
 
 
-            <!-- DERECHA -->
-
             <rect
               x="777"
               y="370"
@@ -1099,7 +849,6 @@
               stroke="#bcc2cc"
               stroke-width="3"
             ></rect>
-
 
             <path
               d="
@@ -1116,11 +865,6 @@
           </g>
 
 
-
-          <!-- =================================================
-               TORRES MEDIAS
-               ================================================= -->
-
           <g>
 
             <rect
@@ -1133,7 +877,6 @@
               stroke="#bfc3ca"
               stroke-width="3"
             ></rect>
-
 
             <path
               d="
@@ -1148,7 +891,6 @@
             ></path>
 
 
-
             <rect
               x="677"
               y="299"
@@ -1159,7 +901,6 @@
               stroke="#bfc3ca"
               stroke-width="3"
             ></rect>
-
 
             <path
               d="
@@ -1176,11 +917,6 @@
           </g>
 
 
-
-          <!-- =================================================
-               TORRES INTERIORES
-               ================================================= -->
-
           <g>
 
             <rect
@@ -1191,7 +927,6 @@
               rx="20"
               fill="url(#p2-piedra)"
             ></rect>
-
 
             <path
               d="
@@ -1204,7 +939,6 @@
             ></path>
 
 
-
             <rect
               x="597"
               y="322"
@@ -1213,7 +947,6 @@
               rx="20"
               fill="url(#p2-piedra)"
             ></rect>
-
 
             <path
               d="
@@ -1227,11 +960,6 @@
 
           </g>
 
-
-
-          <!-- =================================================
-               CUERPO CENTRAL
-               ================================================= -->
 
           <path
             d="
@@ -1249,9 +977,6 @@
           ></path>
 
 
-
-          <!-- TECHO CUERPO CENTRAL -->
-
           <path
             d="
               M361 260
@@ -1265,11 +990,6 @@
           ></path>
 
 
-
-          <!-- =================================================
-               TORRES ALTAS LATERALES
-               ================================================= -->
-
           <g>
 
             <rect
@@ -1280,7 +1000,6 @@
               rx="18"
               fill="url(#p2-piedra-sombra)"
             ></rect>
-
 
             <path
               d="
@@ -1293,7 +1012,6 @@
             ></path>
 
 
-
             <rect
               x="544"
               y="189"
@@ -1302,7 +1020,6 @@
               rx="18"
               fill="url(#p2-piedra-sombra)"
             ></rect>
-
 
             <path
               d="
@@ -1317,11 +1034,6 @@
           </g>
 
 
-
-          <!-- =================================================
-               TORRE PRINCIPAL
-               ================================================= -->
-
           <rect
             x="439"
             y="103"
@@ -1334,9 +1046,6 @@
             filter="url(#p2-textura-piedra)"
           ></rect>
 
-
-
-          <!-- CORNISA -->
 
           <path
             d="
@@ -1351,9 +1060,6 @@
           ></path>
 
 
-
-          <!-- TECHO PRINCIPAL -->
-
           <path
             d="
               M421 113
@@ -1367,27 +1073,17 @@
           ></path>
 
 
-
-          <!-- DETALLE TECHO -->
-
           <g
             stroke="#adc1d8"
             stroke-width="2"
             opacity=".48"
           >
-
             <path d="M490 -114 L444 102"></path>
             <path d="M490 -114 L466 103"></path>
             <path d="M490 -114 L514 103"></path>
             <path d="M490 -114 L537 102"></path>
-
           </g>
 
-
-
-          <!-- =================================================
-               BANDERA
-               ================================================= -->
 
           <circle
             cx="490"
@@ -1449,113 +1145,49 @@
           </g>
 
 
-
-          <!-- =================================================
-               VENTANAS
-               ================================================= -->
-
           <g
             fill="url(#p2-ventana)"
             stroke="#9b825c"
             stroke-width="2"
           >
 
-            <!-- EXTERIORES -->
+            <path d="M136 461 V426 Q136 402 152 402 Q168 402 168 426 V461Z"></path>
+            <path d="M812 461 V426 Q812 402 828 402 Q844 402 844 426 V461Z"></path>
+            <path d="M136 546 V511 Q136 487 152 487 Q168 487 168 511 V546Z"></path>
+            <path d="M812 546 V511 Q812 487 828 487 Q844 487 844 511 V546Z"></path>
 
-            <path
-              d="M136 461 V426 Q136 402 152 402 Q168 402 168 426 V461Z"
-            ></path>
+            <path d="M237 400 V363 Q237 341 253 341 Q269 341 269 363 V400Z"></path>
+            <path d="M710 400 V363 Q710 341 726 341 Q742 341 742 363 V400Z"></path>
+            <path d="M237 491 V454 Q237 432 253 432 Q269 432 269 454 V491Z"></path>
+            <path d="M710 491 V454 Q710 432 726 432 Q742 432 742 454 V491Z"></path>
 
-            <path
-              d="M812 461 V426 Q812 402 828 402 Q844 402 844 426 V461Z"
-            ></path>
+            <path d="M319 443 V408 Q319 388 337 388 Q355 388 355 408 V443Z"></path>
+            <path d="M625 443 V408 Q625 388 643 388 Q661 388 661 408 V443Z"></path>
 
-
-            <path
-              d="M136 546 V511 Q136 487 152 487 Q168 487 168 511 V546Z"
-            ></path>
-
-            <path
-              d="M812 546 V511 Q812 487 828 487 Q844 487 844 511 V546Z"
-            ></path>
-
-
-            <!-- MEDIAS -->
-
-            <path
-              d="M237 400 V363 Q237 341 253 341 Q269 341 269 363 V400Z"
-            ></path>
-
-            <path
-              d="M710 400 V363 Q710 341 726 341 Q742 341 742 363 V400Z"
-            ></path>
-
-
-            <path
-              d="M237 491 V454 Q237 432 253 432 Q269 432 269 454 V491Z"
-            ></path>
-
-            <path
-              d="M710 491 V454 Q710 432 726 432 Q742 432 742 454 V491Z"
-            ></path>
-
-
-            <!-- INTERIORES -->
-
-            <path
-              d="M319 443 V408 Q319 388 337 388 Q355 388 355 408 V443Z"
-            ></path>
-
-            <path
-              d="M625 443 V408 Q625 388 643 388 Q661 388 661 408 V443Z"
-            ></path>
-
-
-            <!-- CENTRAL -->
-
-            <path
-              d="M471 174 V133 Q471 106 490 106 Q509 106 509 133 V174Z"
-            ></path>
-
-            <path
-              d="M471 289 V249 Q471 222 490 222 Q509 222 509 249 V289Z"
-            ></path>
+            <path d="M471 174 V133 Q471 106 490 106 Q509 106 509 133 V174Z"></path>
+            <path d="M471 289 V249 Q471 222 490 222 Q509 222 509 249 V289Z"></path>
 
           </g>
 
-
-
-          <!-- =================================================
-               CRISTALES
-               ================================================= -->
 
           <g
             stroke="#d5a652"
             stroke-width="1.6"
             opacity=".75"
           >
-
             <path d="M490 110 V171"></path>
             <path d="M472 141 H508"></path>
 
             <path d="M490 226 V286"></path>
             <path d="M472 257 H508"></path>
 
-
             <path d="M253 346 V395"></path>
             <path d="M239 372 H267"></path>
 
-
             <path d="M726 346 V395"></path>
             <path d="M712 372 H740"></path>
-
           </g>
 
-
-
-          <!-- =================================================
-               FACHADA CENTRAL
-               ================================================= -->
 
           <path
             d="
@@ -1570,9 +1202,6 @@
             stroke-width="3"
           ></path>
 
-
-
-          <!-- VENTANAL -->
 
           <path
             d="
@@ -1602,11 +1231,6 @@
           ></path>
 
 
-
-          <!-- =================================================
-               BALCÓN
-               ================================================= -->
-
           <path
             d="
               M428 495
@@ -1619,8 +1243,6 @@
             stroke-width="3"
           ></path>
 
-
-          <!-- CORAZÓN CENTRAL -->
 
           <path
             d="
@@ -1635,11 +1257,6 @@
             stroke-width="2"
           ></path>
 
-
-
-          <!-- =================================================
-               BANDERINES
-               ================================================= -->
 
           <g>
 
@@ -1656,7 +1273,6 @@
               stroke-width="2"
             ></path>
 
-
             <path
               d="
                 M586 499
@@ -1670,7 +1286,6 @@
               stroke-width="2"
             ></path>
 
-
             <text
               x="375"
               y="552"
@@ -1680,7 +1295,6 @@
             >
               ✦
             </text>
-
 
             <text
               x="604"
@@ -1694,11 +1308,6 @@
 
           </g>
 
-
-
-          <!-- =================================================
-               PUERTA PRINCIPAL
-               ================================================= -->
 
           <path
             d="
@@ -1728,22 +1337,16 @@
           ></path>
 
 
-          <!-- TABLAS -->
-
           <g
             stroke="#4d342b"
             stroke-width="2"
             opacity=".7"
           >
-
             <path d="M466 550 V656"></path>
             <path d="M490 537 V656"></path>
             <path d="M514 550 V656"></path>
-
           </g>
 
-
-          <!-- TIRADORES -->
 
           <circle
             cx="480"
@@ -1759,11 +1362,6 @@
             fill="#d3a34d"
           ></circle>
 
-
-
-          <!-- =================================================
-               VEGETACIÓN
-               ================================================= -->
 
           <g
             fill="none"
@@ -1781,7 +1379,6 @@
               "
             ></path>
 
-
             <path
               d="
                 M582 631
@@ -1792,9 +1389,6 @@
 
           </g>
 
-
-
-          <!-- HOJAS -->
 
           <g fill="#668955">
 
@@ -1821,7 +1415,6 @@
               ry="22"
               transform="rotate(-43 405 509)"
             ></ellipse>
-
 
             <ellipse
               cx="584"
@@ -1850,9 +1443,6 @@
           </g>
 
 
-
-          <!-- FLORES -->
-
           <g
             fill="#fffdf4"
             stroke="#ddc99d"
@@ -1871,11 +1461,6 @@
 
           </g>
 
-
-
-          <!-- =================================================
-               ESCALONES
-               ================================================= -->
 
           <g
             fill="#ddd6cc"
@@ -1904,20 +1489,11 @@
 
 
 
-      <!-- =================================================
-           GIRASOLES
-           ================================================= -->
-
       <div
         class="p2-campo-girasoles"
         id="p2-campo-girasoles"
       ></div>
 
-
-
-      <!-- =================================================
-           VALLE
-           ================================================= -->
 
       <div
         class="p2-valle"
@@ -1939,11 +1515,6 @@
       aria-hidden="true"
     >
 
-
-      <!-- =================================================
-           PERSONA
-           NO MODIFICADA
-           ================================================= -->
 
       <div
         class="p3-personaje"
@@ -1972,10 +1543,6 @@
       </div>
 
 
-
-      <!-- =================================================
-           PERGAMINO
-           ================================================= -->
 
       <aside
         class="p3-pergamino"
@@ -2083,10 +1650,6 @@
 
 
 
-      <!-- =================================================
-           BOTÓN FINAL
-           ================================================= -->
-
       <button
         class="p3-siguiente"
         id="p3-siguiente"
@@ -2142,10 +1705,6 @@
   </main>
 
 
-
-  <!-- =================================================
-       MÚSICA
-       ================================================= -->
 
   <audio
     id="musica-fondo"
