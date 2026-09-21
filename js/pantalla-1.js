@@ -3,221 +3,6 @@
   "use strict";
 
 
-  /* =========================================================
-     PANTALLA 0
-     =========================================================
-     ÚNICAMENTE carga la introducción.
-     NO modifica visualmente Pantalla 1.
-     ========================================================= */
-
-
-  function cargarPantalla0() {
-
-    if (
-      document.getElementById(
-        "pantalla-0"
-      )
-    ) {
-      return;
-    }
-
-
-    /*
-      Pequeña cubierta instantánea para evitar
-      que Pantalla 1 aparezca durante unas
-      milésimas antes de Pantalla 0.
-    */
-
-    if (
-      !document.getElementById(
-        "p0-preloader"
-      )
-    ) {
-
-      const preloader =
-        document.createElement(
-          "div"
-        );
-
-
-      preloader.id =
-        "p0-preloader";
-
-
-      Object.assign(
-        preloader.style,
-        {
-
-          position:
-            "fixed",
-
-          inset:
-            "0",
-
-          zIndex:
-            "999999",
-
-          background:
-            "#070914",
-
-          pointerEvents:
-            "none"
-
-        }
-      );
-
-
-      document.body.appendChild(
-        preloader
-      );
-
-    }
-
-
-    /*
-      CSS Pantalla 0.
-    */
-
-    let css =
-      Array.from(
-        document.querySelectorAll(
-          'link[rel="stylesheet"]'
-        )
-      ).find(
-        link =>
-          link.href.includes(
-            "pantalla-0.css"
-          )
-      );
-
-
-    function cargarJS() {
-
-      const yaExiste =
-        Array.from(
-          document.scripts
-        ).some(
-          script =>
-            script.src.includes(
-              "pantalla-0.js"
-            )
-        );
-
-
-      if (yaExiste) {
-        return;
-      }
-
-
-      const script =
-        document.createElement(
-          "script"
-        );
-
-
-      script.src =
-        "./js/pantalla-0.js";
-
-
-      script.dataset.pantalla0 =
-        "true";
-
-
-      script.onerror =
-        () => {
-
-          const preloader =
-            document.getElementById(
-              "p0-preloader"
-            );
-
-
-          if (preloader) {
-
-            preloader.remove();
-
-          }
-
-        };
-
-
-      document.body.appendChild(
-        script
-      );
-
-    }
-
-
-    if (!css) {
-
-      css =
-        document.createElement(
-          "link"
-        );
-
-
-      css.rel =
-        "stylesheet";
-
-
-      css.href =
-        "./css/pantalla-0.css";
-
-
-      css.dataset.pantalla0 =
-        "true";
-
-
-      css.addEventListener(
-        "load",
-        cargarJS,
-        {
-          once: true
-        }
-      );
-
-
-      css.addEventListener(
-        "error",
-        cargarJS,
-        {
-          once: true
-        }
-      );
-
-
-      document.head.appendChild(
-        css
-      );
-
-    } else {
-
-      cargarJS();
-
-    }
-
-
-    /*
-      Protección adicional.
-    */
-
-    setTimeout(
-      cargarJS,
-      1200
-    );
-
-  }
-
-
-  cargarPantalla0();
-
-
-
-  /* =========================================
-     PANTALLA 1 ORIGINAL
-     ========================================= */
-
-
   const NS =
     "http://www.w3.org/2000/svg";
 
@@ -1117,6 +902,8 @@
 
 
 
+    /* HOJA IZQUIERDA */
+
     const hojaIzquierda =
       svg(
         "g",
@@ -1169,6 +956,8 @@
     );
 
 
+
+    /* HOJA DERECHA */
 
     const hojaDerecha =
       svg(
@@ -1378,7 +1167,7 @@
 
 
   /* =========================================
-     DISTRIBUCIÓN ORIGINAL DEL BOSQUE
+     DISTRIBUCIÓN DEL BOSQUE
      ========================================= */
 
   function poblarCampo() {
@@ -1682,6 +1471,11 @@
 
 
 
+    /*
+      DocumentFragment reduce las operaciones
+      sobre el DOM y mejora la carga.
+    */
+
     const fragmento =
       document.createDocumentFragment();
 
@@ -1929,6 +1723,11 @@
     () => {
 
 
+      /*
+        Evita que un doble clic
+        ejecute dos veces la transición.
+      */
+
       if (
         cambiandoPantalla
       ) {
@@ -1940,6 +1739,22 @@
 
       cambiandoPantalla =
         true;
+
+
+
+      /*
+        OPTIMIZACIÓN:
+        En cuanto se pulsa el botón,
+        detenemos la brisa automática.
+
+        Visualmente no cambia la pantalla,
+        porque inmediatamente empieza
+        la transición hacia Pantalla 2.
+      */
+
+      clearInterval(
+        intervalo
+      );
 
 
 
@@ -1958,7 +1773,7 @@
 
 
       /* =====================================
-         2. RÁFAGA DE PÉTALOS
+         2. PEQUEÑA RÁFAGA DE PÉTALOS
          ===================================== */
 
       for (
@@ -1977,7 +1792,7 @@
 
 
       /* =====================================
-         3. TRANSICIÓN
+         3. COMENZAR TRANSICIÓN
          ===================================== */
 
       if (
@@ -1998,7 +1813,7 @@
 
 
       /* =====================================
-         4. PANTALLA 2
+         4. MOSTRAR PANTALLA 2
          ===================================== */
 
       setTimeout(
@@ -2017,7 +1832,7 @@
 
 
         },
-        330
+        100
       );
 
 
