@@ -3,13 +3,16 @@
   "use strict";
 
 
-  /* =========================================================
-     PANTALLA 0
-     =========================================================
-     ÚNICAMENTE carga la introducción.
-     NO modifica visualmente Pantalla 1.
-     ========================================================= */
+  /* =========================================
+     PANTALLA 0 · CARGA INICIAL
+     =========================================
+     Este bloque restaura el comportamiento
+     anterior: Pantalla 0 se carga primero.
 
+     NO modifica el diseño de Pantalla 1.
+     NO modifica sus girasoles.
+     NO modifica Pantalla 2.
+     ========================================= */
 
   function cargarPantalla0() {
 
@@ -22,19 +25,15 @@
     }
 
 
-    /*
-      Pequeña cubierta instantánea para evitar
-      que Pantalla 1 aparezca durante unas
-      milésimas antes de Pantalla 0.
-    */
-
-    if (
-      !document.getElementById(
+    let preloader =
+      document.getElementById(
         "p0-preloader"
-      )
-    ) {
+      );
 
-      const preloader =
+
+    if (!preloader) {
+
+      preloader =
         document.createElement(
           "div"
         );
@@ -47,22 +46,12 @@
       Object.assign(
         preloader.style,
         {
-
-          position:
-            "fixed",
-
-          inset:
-            "0",
-
-          zIndex:
-            "999999",
-
+          position: "fixed",
+          inset: "0",
+          zIndex: "999999",
           background:
-            "#070914",
-
-          pointerEvents:
-            "none"
-
+            "linear-gradient(145deg, #100d14 0%, #181119 52%, #24151d 100%)",
+          pointerEvents: "auto"
         }
       );
 
@@ -74,37 +63,13 @@
     }
 
 
-    /*
-      CSS Pantalla 0.
-    */
+    const cargarScript = () => {
 
-    let css =
-      Array.from(
-        document.querySelectorAll(
-          'link[rel="stylesheet"]'
+      if (
+        document.querySelector(
+          'script[data-pantalla-cero="true"]'
         )
-      ).find(
-        link =>
-          link.href.includes(
-            "pantalla-0.css"
-          )
-      );
-
-
-    function cargarJS() {
-
-      const yaExiste =
-        Array.from(
-          document.scripts
-        ).some(
-          script =>
-            script.src.includes(
-              "pantalla-0.js"
-            )
-        );
-
-
-      if (yaExiste) {
+      ) {
         return;
       }
 
@@ -119,103 +84,90 @@
         "./js/pantalla-0.js";
 
 
-      script.dataset.pantalla0 =
+      script.dataset.pantallaCero =
         "true";
 
 
-      script.onerror =
+      script.addEventListener(
+        "error",
         () => {
 
-          const preloader =
+          const cargador =
             document.getElementById(
               "p0-preloader"
             );
 
 
-          if (preloader) {
-
-            preloader.remove();
-
+          if (cargador) {
+            cargador.remove();
           }
 
-        };
-
-
-      document.body.appendChild(
-        script
-      );
-
-    }
-
-
-    if (!css) {
-
-      css =
-        document.createElement(
-          "link"
-        );
-
-
-      css.rel =
-        "stylesheet";
-
-
-      css.href =
-        "./css/pantalla-0.css";
-
-
-      css.dataset.pantalla0 =
-        "true";
-
-
-      css.addEventListener(
-        "load",
-        cargarJS,
-        {
-          once: true
-        }
-      );
-
-
-      css.addEventListener(
-        "error",
-        cargarJS,
-        {
-          once: true
-        }
+        },
+        { once: true }
       );
 
 
       document.head.appendChild(
-        css
+        script
       );
 
-    } else {
+    };
 
-      cargarJS();
+
+    const cssExistente =
+      document.querySelector(
+        'link[data-pantalla-cero="true"]'
+      );
+
+
+    if (cssExistente) {
+
+      cargarScript();
+      return;
 
     }
 
 
-    /*
-      Protección adicional.
-    */
+    const estilo =
+      document.createElement(
+        "link"
+      );
 
-    setTimeout(
-      cargarJS,
-      1200
+
+    estilo.rel =
+      "stylesheet";
+
+
+    estilo.href =
+      "./css/pantalla-0.css";
+
+
+    estilo.dataset.pantallaCero =
+      "true";
+
+
+    estilo.addEventListener(
+      "load",
+      cargarScript,
+      { once: true }
+    );
+
+
+    estilo.addEventListener(
+      "error",
+      cargarScript,
+      { once: true }
+    );
+
+
+    document.head.appendChild(
+      estilo
     );
 
   }
 
 
   cargarPantalla0();
-
-
-
-  /* =========================================
-     PANTALLA 1 ORIGINAL
-     ========================================= */
 
 
   const NS =
@@ -1117,6 +1069,8 @@
 
 
 
+    /* HOJA IZQUIERDA */
+
     const hojaIzquierda =
       svg(
         "g",
@@ -1169,6 +1123,8 @@
     );
 
 
+
+    /* HOJA DERECHA */
 
     const hojaDerecha =
       svg(
@@ -1378,7 +1334,7 @@
 
 
   /* =========================================
-     DISTRIBUCIÓN ORIGINAL DEL BOSQUE
+     DISTRIBUCIÓN DEL BOSQUE
      ========================================= */
 
   function poblarCampo() {
@@ -1682,6 +1638,11 @@
 
 
 
+    /*
+      DocumentFragment reduce las operaciones
+      sobre el DOM y mejora la carga.
+    */
+
     const fragmento =
       document.createDocumentFragment();
 
@@ -1929,6 +1890,11 @@
     () => {
 
 
+      /*
+        Evita que un doble clic
+        ejecute dos veces la transición.
+      */
+
       if (
         cambiandoPantalla
       ) {
@@ -1958,7 +1924,7 @@
 
 
       /* =====================================
-         2. RÁFAGA DE PÉTALOS
+         2. PEQUEÑA RÁFAGA DE PÉTALOS
          ===================================== */
 
       for (
@@ -1977,7 +1943,7 @@
 
 
       /* =====================================
-         3. TRANSICIÓN
+         3. COMENZAR TRANSICIÓN
          ===================================== */
 
       if (
@@ -1998,7 +1964,7 @@
 
 
       /* =====================================
-         4. PANTALLA 2
+         4. MOSTRAR PANTALLA 2
          ===================================== */
 
       setTimeout(
@@ -2017,7 +1983,7 @@
 
 
         },
-        330
+        100
       );
 
 
